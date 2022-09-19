@@ -25,7 +25,6 @@ class GameController:
       for game in config["games"]:
         title = game["title"]
         command = game["command"]
-        # TODO: Perhaps some kind of sanity check here? Or not.
         game_spec = GameSpec(title = title, command = command)
         self.game_specs.append(game_spec)
 
@@ -45,7 +44,6 @@ class GameController:
       print("killing current game process...")
       self.current_game_process.kill()
 
-  # TODO: pipe stdout and stderr to somewhere
   def start_game_from_spec(self, game_spec: GameSpec):
     self.stop_current_game()
     args = shlex.split(game_spec.command)
