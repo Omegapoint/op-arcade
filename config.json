@@ -1,0 +1,13 @@
+{
+  "games": [
+    {
+      "title": "Achtung Die Kurve",
+      "command": "/usr/bin/python3.9 /home/esillen/github/op-arcade/spawn1.py"
+    },
+    {
+      "title": "Achtung Die Kurve 2 - Curveballz!",
+      "command": "/usr/bin/python3.9 /home/esillen/github/op-arcade/spawn2.py"
+    }
+  ]
+
+}
