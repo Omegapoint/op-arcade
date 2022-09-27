@@ -13,10 +13,7 @@ os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
 
 pygame.init()
 
-font = pygame.font.Font('freesansbold.ttf', 20)
 
-size = [600, 400]
-screen = pygame.display.set_mode(size)
 
 
 def draw_new_text(text):
@@ -74,7 +71,7 @@ class GameController:
       self.__save_err_log_to_file()
 
   def start_game_from_spec(self, game_spec: GameSpec):
-    draw_new_text(f"Starting {game_spec.title}")
+    draw_new_text(f"Startar {game_spec.title}")
     self.stop_current_game()
     args = shlex.split(game_spec.command)
     print(f"starting {game_spec.title}")
@@ -92,15 +89,9 @@ class GameController:
         with open(err_file_path, "wb") as err_file:
           err_file.write(stderr_data)
 
-
-if len(sys.argv) < 2:
-  print("Error: specify config .json as argument")
-  sys.exit()
-config_file_path = sys.argv[1]
-
-game_controller = GameController(config_file_path)
-game_controller.start_first_game()
-
+font = pygame.font.Font('freesansbold.ttf', 20)
+size = [600, 400]
+screen = pygame.display.set_mode(size)
 clock = pygame.time.Clock()
 
 if os.environ.get("OP_ARCADE"):
@@ -110,6 +101,12 @@ if os.environ.get("OP_ARCADE"):
   joystick1 = pygame.joystick.Joystick(1)
   joystick1.init()
   joybutton_down = False
+  game_controller = GameController(os.path.join(sys.path[0], "config.json"))
+else: # dev mode
+  game_controller = GameController(os.path.join(sys.path[0], "config_dev.json"))
+
+
+game_controller.start_first_game()
 
 while True:
   clock.tick(10)

@@ -1,0 +1,13 @@
+{
+  "games": [
+    {
+      "title": "Achtung die kurve",
+      "command": "/usr/bin/python3.9 /home/pi/achtung/achtungMain.py"
+    },
+    {
+      "title": "Demo",
+      "command": "/usr/bin/python3.9 /home/pi/op-arcade/demo.py"
+    }
+  ]
+
+}
