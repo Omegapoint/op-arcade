@@ -8,18 +8,21 @@ import datetime
 import os
 import fcntl
 
+# This allows joystick events to be captured even without window focus
+os.environ["SDL_JOYSTICK_ALLOW_BACKGROUND_EVENTS"] = "1"
+
 pygame.init()
 
-font = pygame.font.Font('freesansbold.ttf', 10)
+font = pygame.font.Font('freesansbold.ttf', 20)
 
 size = [600, 400]
 screen = pygame.display.set_mode(size)
 
 
-def draw_new_text():
-  text = font.render(text, True, (255, 255, 255)) 
-  screen.fill((255, 255, 255))
-  screen.blit(text, (100, 150))
+def draw_new_text(text):
+  screen.fill((0, 0, 0))
+  text_surf = font.render(text, True, (255, 255, 255)) 
+  screen.blit(text_surf, (100, 150))
 
 def non_block_read(output):
   fd = output.fileno()
@@ -138,5 +141,7 @@ while True:
       exit()
     else:
       print("bad input")  
+  
+  pygame.display.flip()
 
 
