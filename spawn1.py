@@ -3,13 +3,7 @@ import pygame
 from pygame.locals import QUIT
 pygame.init()
 DISPLAYSURF = pygame.display.set_mode((400, 300))
-pygame.display.set_caption('Achtung die Kurve!')
-print("hejsan")
-print("hejsan")
-print("hejsan")
-print("hejsan")
-print("hejsan")
-print("hejsan")
+pygame.display.set_caption('Spawn 1')
 while True: # main game loop
     for event in pygame.event.get():
         if event.type == QUIT:

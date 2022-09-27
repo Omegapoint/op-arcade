@@ -6,7 +6,6 @@ import sys
 import pygame
 import datetime
 import os
-from io import StringIO
 import fcntl
 
 pygame.init()
