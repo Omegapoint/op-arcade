@@ -54,7 +54,7 @@ class GameController:
   def stop_current_game(self):
     if self.current_game_process != None:
       print("killing current game process...")
-      self.current_game_process.terminate()
+      self.current_game_process.kill()
       self.current_game_process.wait()
       print("Saving error log to file...")
       self.__save_err_log_to_file()
