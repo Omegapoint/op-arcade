@@ -10,6 +10,17 @@ import fcntl
 
 pygame.init()
 
+font = pygame.font.Font('freesansbold.ttf', 10)
+
+size = [600, 400]
+screen = pygame.display.set_mode(size)
+
+
+def draw_new_text():
+  text = font.render(text, True, (255, 255, 255)) 
+  screen.fill((255, 255, 255))
+  screen.blit(text, (100, 150))
+
 def non_block_read(output):
   fd = output.fileno()
   fl = fcntl.fcntl(fd, fcntl.F_GETFL)
@@ -60,6 +71,7 @@ class GameController:
       self.__save_err_log_to_file()
 
   def start_game_from_spec(self, game_spec: GameSpec):
+    draw_new_text(f"Starting {game_spec.title}")
     self.stop_current_game()
     args = shlex.split(game_spec.command)
     print(f"starting {game_spec.title}")
@@ -86,14 +98,45 @@ config_file_path = sys.argv[1]
 game_controller = GameController(config_file_path)
 game_controller.start_first_game()
 
+clock = pygame.time.Clock()
+
+if os.environ.get("OP_ARCADE"):
+  pygame.joystick.init()
+  joystick0 = pygame.joystick.Joystick(0)
+  joystick0.init()
+  joystick1 = pygame.joystick.Joystick(1)
+  joystick1.init()
+  joybutton_down = False
+
 while True:
-  user_input = input("n = next, p = prev, x = kill")
-  if user_input == 'n':
-    game_controller.start_next_game()
-  elif user_input == 'p':
-    game_controller.start_previous_game()
-  elif user_input == 'x':
-    game_controller.stop_current_game()
-    exit()
-  else:
-    print("bad input")
+  clock.tick(10)
+
+  for event in pygame.event.get(): # User did something
+    if event.type == pygame.QUIT: # If user clicked close
+      break
+
+  if os.environ.get("OP_ARCADE"): # Joystick input
+    if joystick0.get_button(9):
+      if not joybutton_down:
+        game_controller.start_next_game()
+      joybutton_down = True
+    elif joystick1.get_button(9):
+      if not joybutton_down:
+        game_controller.start_next_game()
+      joybutton_down = True
+    else:
+      joybutton_down = False
+
+  else: # Keyboard input
+    user_input = input("n = next, p = prev, x = kill")
+    if user_input == 'n':
+      game_controller.start_next_game()
+    elif user_input == 'p':
+      game_controller.start_previous_game()
+    elif user_input == 'x':
+      game_controller.stop_current_game()
+      exit()
+    else:
+      print("bad input")  
+
+
