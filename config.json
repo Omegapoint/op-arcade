@@ -7,6 +7,10 @@
     {
       "title": "Demo",
       "command": "/usr/bin/python3.9 /home/pi/op-arcade/demo.py"
+    },
+    {
+      "title": "Pong 8",
+      "command": "/usr/bin/python3.9 /home/pi/op-arcade/pong8.py"
     }
   ]
 

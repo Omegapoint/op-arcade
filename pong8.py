@@ -1,0 +1,1 @@
+import games.pong8.main # This MUST be an antipattern.

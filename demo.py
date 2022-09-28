@@ -1,1 +1,1 @@
-import games.demo.demo # This MUST be an antipattern.
+import games.demo.main # This MUST be an antipattern.
