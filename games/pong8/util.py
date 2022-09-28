@@ -20,3 +20,12 @@ def intersectionTest(p1, p2, p3, p4) -> Union[None, tuple[float, float]]:
     x = x1 + ua * (x2-x1)
     y = y1 + ua * (y2-y1)
     return (x,y)
+
+
+def dot(v1x, v1y, v2x, v2y):
+    return v1x*v2x + v1y*v2y
+
+# project v1 onto v2
+def projection(v1x, v1y, v2x, v2y):
+    k = dot(v1x, v1y, v2x, v2y) / dot(v2x, v2y, v2x, v2y)
+    return (k*v2x, k*v2y)

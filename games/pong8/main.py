@@ -1,6 +1,7 @@
 import pygame
 
 from games.pong8.ball import Ball
+from games.pong8.update_results import UpdateResult
 pygame.init()
 
 import os
@@ -41,6 +42,8 @@ while True:
 
   time_since_last_ball += delta_time_seconds
   if time_since_last_ball >= BALL_SPAWN_TIME:
+    if len(balls) > 100: # reasonable number of balls right
+      balls.pop()
     balls.append(spawnBall())
     time_since_last_ball = 0
 
@@ -49,7 +52,10 @@ while True:
     player.draw(main_surface)
 
   for ball in balls:
-    ball.update(delta_time_seconds, players)
-    ball.draw(main_surface)
+    update_result = ball.update(delta_time_seconds, players)
+    if update_result == UpdateResult.KILLME:
+      balls.remove(ball)
+    else:
+      ball.draw(main_surface)
 
   pygame.display.flip()

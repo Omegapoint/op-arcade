@@ -1,0 +1,5 @@
+from enum import Enum
+
+class UpdateResult(Enum):
+  NONE = 0
+  KILLME = 1
