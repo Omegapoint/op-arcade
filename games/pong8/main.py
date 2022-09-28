@@ -18,14 +18,11 @@ main_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
 clock = pygame.time.Clock()
 
 players = []
-players.append(Player(inputs.player_inputs[0], 100, 100, 0 * math.pi / 4))
-players.append(Player(inputs.player_inputs[1], 200, 100, 1 * math.pi / 4))
-players.append(Player(inputs.player_inputs[2], 300, 100, 2 * math.pi / 4))
-players.append(Player(inputs.player_inputs[3], 100, 200, 3 * math.pi / 4))
-players.append(Player(inputs.player_inputs[4], 100, 300, 4 * math.pi / 4))
-players.append(Player(inputs.player_inputs[5], 200, 200, 5 * math.pi / 4))
-players.append(Player(inputs.player_inputs[6], 200, 300, 6 * math.pi / 4))
-players.append(Player(inputs.player_inputs[7], 300, 200, 7 * math.pi / 4))
+cx = SCREEN_WIDTH / 2
+cy = SCREEN_HEIGHT / 2
+for i in range(8):
+  players.append(Player(inputs.player_inputs[i], i * math.pi / 4))
+
 
 balls = []
 def spawnBall():
@@ -42,7 +39,7 @@ while True:
 
   main_surface.fill(COLOR_BLACK)
 
-  time_since_last_ball += time_since_last_tick
+  time_since_last_ball += delta_time_seconds
   if time_since_last_ball >= BALL_SPAWN_TIME:
     balls.append(spawnBall())
     time_since_last_ball = 0

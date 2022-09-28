@@ -7,6 +7,7 @@ from games.pong8.player import Player
 class Ball:
 
   RADIUS = 3
+  ACCELERATION = 10
 
   def __init__(self, x : float, y : float, speed : float):
     self.x : float = x
@@ -15,6 +16,7 @@ class Ball:
     self.forwardAngleRadians : float = random.uniform(0, 2 * math.pi)
 
   def update(self, deltaTime : float, players : list[Player]):
+    self.speed += Ball.ACCELERATION * deltaTime
     forwardVectorX = math.cos(self.forwardAngleRadians)
     forwardVectorY = math.sin(self.forwardAngleRadians)
     nextx = self.x + forwardVectorX * deltaTime * self.speed
@@ -23,6 +25,9 @@ class Ball:
       hitResult = player.collissionTest(self.x, self.y, nextx, nexty)
       if hitResult:
         self.bounceOffPlayer(player)
+        break # so it can only bounce once per frame
+    self.x = nextx
+    self.y = nexty
   
   def bounceOffPlayer(self, player: Player):
     pass
