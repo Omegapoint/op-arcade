@@ -6,19 +6,19 @@ import math
 from games.pong8.util import intersectionTest
 
 pygame.font.init()
-font = pygame.font.Font('freesansbold.ttf', 30)
+font = pygame.font.Font('freesansbold.ttf', 20)
 
 
 class Player:
 
-  SPEED = 100
+  SPEED = 280
   MAX_POS_DIFF = 165
   HALF_SIZE = 25
   PADDLE_WIDTH = 4
   GOAL_WIDTH = 1
   DIST_FROM_CENTER = 450
   GOAL_DIST_FROM_CENTER = 490
-  SCORE_TEXT_DIST_FROM_CENTER = 350
+  SCORE_TEXT_DIST_FROM_CENTER = 370
   GOAL_SIZE = 202
   STARTING_LIVES = 10
 
@@ -55,7 +55,7 @@ class Player:
     #lives left
     lives_left_color = [0, 255, 0] if self.is_alive() else [255, 0, 0]
     lives_text_obj = font.render(str(self.lives), False, lives_left_color)
-    rotatedSurf = pygame.transform.rotate(lives_text_obj, 0)#(self.normalAngleRadians + (7*math.pi / 2)) * 180 / math.pi)
+    rotatedSurf = pygame.transform.rotate(lives_text_obj, (-self.normalAngleRadians + (math.pi / 2))* 180 / math.pi)
     rotatedRect = rotatedSurf.get_rect()
     rotatedRect.center = (self.score_centerx, self.score_centery)
     surface.blit(rotatedSurf, rotatedRect)
