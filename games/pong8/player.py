@@ -6,7 +6,7 @@ import math
 from games.pong8.util import intersectionTest
 
 pygame.font.init()
-font = pygame.font.Font('freesansbold.ttf', 25)
+font = pygame.font.Font('freesansbold.ttf', 30)
 
 
 class Player:
@@ -16,10 +16,10 @@ class Player:
   HALF_SIZE = 25
   PADDLE_WIDTH = 4
   GOAL_WIDTH = 1
-  DIST_FROM_CENTER = 400
-  GOAL_DIST_FROM_CENTER = 450
-  SCORE_TEXT_DIST_FROM_CENTER = 300
-  GOAL_SIZE = 200
+  DIST_FROM_CENTER = 450
+  GOAL_DIST_FROM_CENTER = 490
+  SCORE_TEXT_DIST_FROM_CENTER = 350
+  GOAL_SIZE = 202
   STARTING_LIVES = 10
 
   def __init__(self, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, normalAngleRadians: float):
