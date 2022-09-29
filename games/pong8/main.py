@@ -31,6 +31,20 @@ def draw_intro(surface):
   surface.blit(rotatedSurf, rotatedRect)
   pygame.display.flip()
 
+def draw_game_over(surface, players, balls):
+  surface.fill(COLOR_BLACK)
+  for player in players:
+    player.draw(surface)
+  for ball in balls:
+    ball.draw(surface)
+  font = pygame.font.Font('freesansbold.ttf', 20)
+  lives_text_obj = font.render("Tryck på stora knappen för att starta om!", False, [255, 255, 255])
+  rotatedSurf = pygame.transform.rotate(lives_text_obj, 0)
+  rotatedRect = rotatedSurf.get_rect()
+  rotatedRect.center = (SCREEN_WIDTH/2, SCREEN_HEIGHT/2)
+  surface.blit(rotatedSurf, rotatedRect)
+  pygame.display.flip()
+
 def main():
   if os.environ.get("OP_ARCADE"):
     inputs = ArcadeInput("OP_ARCADE")
@@ -82,8 +96,7 @@ def main():
         if update_result == UpdateResult.KILLME:
           balls.remove(ball)
           if is_game_over(players):
-            for player in players:
-              player.draw(main_surface)
+            draw_game_over(main_surface, players, balls)
             break
         else:
           ball.draw(main_surface)

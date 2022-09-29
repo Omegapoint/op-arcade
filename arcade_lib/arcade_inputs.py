@@ -81,7 +81,7 @@ class ArcadeInput:
       joystick0 = pygame.joystick.Joystick(0)
       joystick1 = pygame.joystick.Joystick(1)
       joystick2 = pygame.joystick.Joystick(2)
-      self.start_button_joystick = joystick2
+      self.start_button_joystick = joystick0
       joystick0.init()
       joystick1.init()
       joystick2.init()
