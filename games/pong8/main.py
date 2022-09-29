@@ -14,7 +14,7 @@ def spawnBall():
   ball = Ball(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2, 100)
   return ball
 
-BALL_SPAWN_TIME = 0.1
+BALL_SPAWN_TIME = 1
 
 
 def is_game_over(players):
@@ -54,7 +54,7 @@ def main():
     cx = SCREEN_WIDTH / 2
     cy = SCREEN_HEIGHT / 2
     for i in range(8):
-      players.append(Player(inputs.player_inputs[i], i * math.pi / 4))
+      players.append(Player(inputs.player_inputs[i], (-i + 2) * math.pi / 4))
 
     balls = []
     time_since_last_ball = 0

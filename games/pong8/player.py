@@ -40,9 +40,9 @@ class Player:
 
   def update(self, deltaTime: float) -> None:
     if self.inputs.get_left_button_state():
-      self.paddle_pos = max(self.paddle_pos - (Player.SPEED * deltaTime), -Player.MAX_POS_DIFF)
-    if self.inputs.get_right_button_state():
       self.paddle_pos = min(self.paddle_pos + (Player.SPEED * deltaTime), Player.MAX_POS_DIFF)
+    if self.inputs.get_right_button_state():
+      self.paddle_pos = max(self.paddle_pos - (Player.SPEED * deltaTime), -Player.MAX_POS_DIFF)
 
   def draw(self, surface : pygame.Surface) -> None:
     #paddle
