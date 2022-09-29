@@ -1,6 +1,6 @@
 import os
 import pygame
-from pygame.locals import K_q, K_w, K_e, K_r, K_t, K_y, K_u, K_i, K_o, K_a, K_s, K_d, K_f, K_g, K_h, K_j, K_k, K_l, K_z, K_x, K_c, K_v, K_b, K_n 
+from pygame.locals import K_RETURN, K_q, K_w, K_e, K_r, K_t, K_y, K_u, K_i, K_o, K_a, K_s, K_d, K_f, K_g, K_h, K_j, K_k, K_l, K_z, K_x, K_c, K_v, K_b, K_n 
 
 
 class ArcadePlayerInput:
@@ -75,10 +75,13 @@ class KeyboardArcadePlayerInput(ArcadePlayerInput):
 class ArcadeInput:
   def __init__(self, mode : str):
     self.player_inputs : list[ArcadePlayerInput] = []
-    if mode == "OP_ARCADE":
+    self.mode = mode
+    self.start_button_joystick = None
+    if self.mode == "OP_ARCADE":
       joystick0 = pygame.joystick.Joystick(0)
       joystick1 = pygame.joystick.Joystick(1)
       joystick2 = pygame.joystick.Joystick(2)
+      self.start_button_joystick = joystick2
       joystick0.init()
       joystick1.init()
       joystick2.init()
@@ -90,7 +93,7 @@ class ArcadeInput:
       self.player_inputs.append(JoystickArcadePlayerInput(joystick0, 1, 0, 2))
       self.player_inputs.append(JoystickArcadePlayerInput(joystick0, 3, 4, 5))
       self.player_inputs.append(JoystickArcadePlayerInput(joystick2, 3, 4, 5))
-    elif mode == "KEYBOARD":
+    elif self.mode == "KEYBOARD":
       self.player_inputs.append(KeyboardArcadePlayerInput(K_q, K_w, K_e))
       self.player_inputs.append(KeyboardArcadePlayerInput(K_r, K_t, K_y))
       self.player_inputs.append(KeyboardArcadePlayerInput(K_u, K_i, K_o))
@@ -102,7 +105,16 @@ class ArcadeInput:
     else:
       raise("Invalid input mode")
 
+  def get_start_button_state(self):
+    if self.mode == "OP_ARCADE":
+      return self.start_button_joystick.get_button(8)
+    elif self.mode == "KEYBOARD":
+      keys = pygame.key.get_pressed()
+      return keys[K_RETURN]
+
+
+
   def update(self):
+    pygame.event.get()
     for input in self.player_inputs:
-      pygame.event.get()
       input.update()

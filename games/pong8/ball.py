@@ -10,7 +10,7 @@ from games.pong8.player import Player
 class Ball:
 
   RADIUS = 3
-  ACCELERATION = 10
+  ACCELERATION = 100
 
   def __init__(self, x : float, y : float, speed : float):
     self.x : float = x
