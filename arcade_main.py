@@ -118,7 +118,7 @@ while True:
   if os.environ.get("OP_ARCADE"): # Joystick input
     if joystick0.get_button(9):
       if not joybutton_down:
-        game_controller.start_prev_game()
+        game_controller.start_previous_game()
       joybutton_down = True
     elif joystick1.get_button(9):
       if not joybutton_down:
