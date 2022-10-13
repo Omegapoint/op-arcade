@@ -14,7 +14,7 @@ def main():
   main_surface = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
   clock = pygame.time.Clock()
 
-  game = Game(inputs)
+  game = Game(inputs, start_from_level=3)
 
   while True:
     delta_time_millis = clock.tick()

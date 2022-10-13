@@ -15,14 +15,18 @@ class Vector2:
   def __add__(self, other: Vector2) -> Vector2:
     return Vector2(self.x + other.x, self.y + other.y)
 
+  def __sub__(self, other: Vector2) -> Vector2:
+    return Vector2(self.x - other.x, self.y - other.y)  
+
   def multiply(self, multiplier: float) -> Vector2:
     return Vector2(self.x * multiplier, self.y * multiplier)
   
   def magnitude(self) -> float:
-    return self.distance(Vector2())
+    return math.sqrt(self.x * self.x + self.y * self.y)
 
   def distance(self, other: Vector2) -> float:
-    return math.sqrt((self.x - other.x)**2 + (self.y - other.y) ** 2)
+    diff = self-other
+    return diff.magnitude()
 
   def normalized(self) -> Vector2:
     magnitude_inv = 1.0 / self.magnitude()

@@ -21,14 +21,33 @@ class World:
     return WorldProps(500, 100)
 
   def __init_bubbles(self, level : int):
-    return [Bubble(90, 200, 100, math.pi * 2 / 16)]
+    if level == 1:
+      return [Bubble(0, 200, 100, math.pi * 2 / 16)]
+    if level == 2:
+      return [
+        Bubble(0, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi, 200, 100, math.pi * 2 / 16),
+      ]
+    if level == 3:
+      return [
+        Bubble(0, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi * 2 / 3, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi * 2 * 2 / 3, 200, 100, math.pi * 2 / 16),
+      ]
+    if level == 4:
+      return [
+        Bubble(0, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi * 2 / 4, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi * 2 * 2 / 4, 200, 100, math.pi * 2 / 16),
+        Bubble(math.pi * 2 * 3 / 4, 200, 100, math.pi * 2 / 16),
+      ]
 
   def update(self, delta_time : float):
     for bubble in self.bubbles:
       bubble.update(delta_time, self)
 
   def bubble_hit(self, bubble : Bubble):
-    new_size = bubble.size / 2
+    new_size = bubble.size * 2 / 3
     self.bubbles.remove(bubble)
     if (new_size > Bubble.SMALLEST_RADIUS):
       self.bubbles.append(Bubble(start_angle=bubble.angle, start_radius=bubble.radius, size=new_size, tangential_velocity = bubble.tangential_velocity))
