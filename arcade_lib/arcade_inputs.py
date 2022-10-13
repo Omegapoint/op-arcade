@@ -9,7 +9,7 @@ class ArcadePlayerInput:
     self.__right_button_down : bool = False
     self.__action_button_down : bool = False
 
-  def update(self):
+  def update(self) -> None:
     self.__left_button_down = not self.__left_button_down and self.get_left_button_state()
     self.__right_button_down = not self.__right_button_down and self.get_right_button_state()
     self.__action_button_down = not self.__action_button_down and self.get_action_button_state()
@@ -59,7 +59,7 @@ class KeyboardArcadePlayerInput(ArcadePlayerInput):
     self.action_button_id = action_button_id
     self.keys : list[int] = []
 
-  def update(self):
+  def update(self) -> None:
     self.keys = pygame.key.get_pressed()
     super().update()
 
@@ -114,7 +114,7 @@ class ArcadeInput:
 
 
 
-  def update(self):
+  def update(self) -> None:
     pygame.event.get()
     for input in self.player_inputs:
       input.update()
