@@ -15,7 +15,6 @@ def main():
   clock = pygame.time.Clock()
 
   game = Game(inputs)
-  game.start_game(0)
 
   while True:
     delta_time_millis = clock.tick()

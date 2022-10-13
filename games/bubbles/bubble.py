@@ -29,7 +29,7 @@ class Bubble:
   def update(self, deltaTime: float, world : World):
     self.apply_gravity(deltaTime)
     if self.radius + self.size >= world.props.outer_radius:
-      self.radius = world.props.outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly)
+      self.radius = world.props.outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly even though it is easy)
       self.radial_velocity = - self.radial_velocity
 
     # collission detection etc etc etc

@@ -15,8 +15,11 @@ class Game:
     self.players : list[Player] = []
     self.hooks : list[Hook] = []
     self.world : World = None
+    self.current_level = 1
+    self.initialize_level(1)
 
-  def start_game(self, level: int) -> None:
+  def initialize_level(self, level: int) -> None:
+    self.current_level = level
     self.world = World(level)
     self.players = []
     for i in range(8):
@@ -39,6 +42,8 @@ class Game:
       if update_result == UpdateResult.KILLME:
         self.unregister_hook(hook)
         hook.player.hook = None
+    if len(self.world.bubbles) == 0:
+      self.initialize_level(self.current_level + 1)
 
 
   def draw(self, surface : pygame.Surface):
