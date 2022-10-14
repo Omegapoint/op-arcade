@@ -27,8 +27,9 @@ class PlayerAnimationState(Enum):
 
 class Player():
 
-  _COLLISSION_RADIUS = 10
-  _CHARACTER_RADIUS = 15
+  _HITBOX_CENTER_HEIGHT = 35
+  _SPRITE_OFFSET = 27
+  _HITBOX_RADIUS = 15
   _ANGULAR_SPEED = (math.pi * 2) / 8
 
   def __init__(self, start_angle : float, color, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, world_props : WorldProps):
@@ -48,9 +49,11 @@ class Player():
       PlayerAnimationState.WALKING_LEFT : walk_left_animation,
       PlayerAnimationState.WALKING_RIGHT : walk_right_animation})
 
-  def calc_pos(self) -> Vector2:
-    character_height = Player._CHARACTER_RADIUS
-    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - character_height) 
+  def calc_hitbox_center_pos(self) -> Vector2:
+    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
+
+  def calc_sprite_pos(self) -> tuple[Vector2, Vector2]:
+    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._SPRITE_OFFSET) 
 
   def update(self, deltaTime : float, game : Game) -> UpdateResult:
     idle = True
@@ -73,12 +76,14 @@ class Player():
     return UpdateResult.NONE
 
   def draw(self, surface : pygame.Surface) -> None:
-    pos = self.calc_pos()
+    # pygame.draw.circle(surface, self.color, to_surface_coordinates(self.calc_hitbox_center_pos()), Player._HITBOX_RADIUS) # <- the actual hitbox
     current_animation_image = self.animator.get_current_image()
     current_animation_image = self.animator.get_current_image()
     current_animation_image = pygame.transform.rotate(current_animation_image, -math.degrees(self.angle) + 90)
-    surface.blit(current_animation_image, to_surface_coordinates(pos))
-    #pygame.draw.circle(surface, self.color, to_surface_coordinates(pos), Player._CHARACTER_RADIUS)
+    surface_coordinates = list(to_surface_coordinates(self.calc_sprite_pos()))
+    surface_coordinates[0] -= current_animation_image.get_width() / 2
+    surface_coordinates[1] -= current_animation_image.get_height() / 2
+    surface.blit(current_animation_image, surface_coordinates)
 
   def shoot(self, game : Game) -> None:
     self.hook = Hook(self.angle, self.world_props.outer_radius, self)
@@ -88,4 +93,4 @@ class Player():
     self.hook = None
 
   def collided_with_bubble(self, bubble : Bubble) -> bool:
-    return self.calc_pos().distance(bubble.calc_pos()) < max(Player._COLLISSION_RADIUS, bubble.size)
+    return self.calc_hitbox_center_pos().distance(bubble.calc_pos()) < max(Player._HITBOX_RADIUS, bubble.size)

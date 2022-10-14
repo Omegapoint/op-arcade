@@ -12,7 +12,7 @@ class Spritesheet(object):
     self.sprite_width : int = sprite_width
     self.sprite_height : int = sprite_height
     try:
-        self.sheet : pygame.Surface = pygame.image.load(filename).convert_alpha()
+        self.sheet : pygame.Surface = pygame.image.load(filename)
     except pygame.error as e:
         print ('Unable to load spritesheet image:', filename)
         print('error', e)
@@ -20,12 +20,11 @@ class Spritesheet(object):
 
   def image_at(self, row : int, col : int, colorkey=None):
       rect = pygame.Rect(self.sprite_width * col, self.sprite_height * row, self.sprite_width, self.sprite_height)
-      image = pygame.Surface(rect.size).convert()
+      image = pygame.Surface(rect.size)
       image.blit(self.sheet, (0, 0), rect)
-      if colorkey is not None:
-          if colorkey == -1:
-              colorkey = image.get_at((0, 0))
-          image.set_colorkey(colorkey, pygame.RLEACCEL)
+      if not colorkey:
+        colorkey = image.get_at((0, 0))
+      image.set_colorkey(colorkey, pygame.RLEACCEL)
       return image
 
 class SpritesheetAnimation:
