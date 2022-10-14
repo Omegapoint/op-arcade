@@ -1,6 +1,6 @@
 from games.bubbles.bubble import Bubble
 from games.bubbles.util import to_surface_coordinates
-from games.bubbles.vector2 import Vector2
+from arcade_lib.vector2 import Vector2
 import pygame
 import math
 

@@ -5,7 +5,7 @@ if TYPE_CHECKING:
   from games.bubbles.player import Player
   
 from games.bubbles.update_results import UpdateResult
-from games.bubbles.vector2 import Vector2
+from arcade_lib.vector2 import Vector2
 from games.bubbles.util import to_surface_coordinates, calc_line_segment_circle_intersections
 
 import pygame

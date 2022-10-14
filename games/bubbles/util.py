@@ -1,4 +1,4 @@
-from games.bubbles.vector2 import Vector2
+from arcade_lib.vector2 import Vector2
 from arcade_lib.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 import math
 
