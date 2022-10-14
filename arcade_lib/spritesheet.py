@@ -48,10 +48,10 @@ class SpritesheetAnimation:
     return image
 
 class Animator:
-  def __init__(self, animations_map : dict[Enum, SpritesheetAnimation]):
+  def __init__(self, animations_map : dict[Enum, SpritesheetAnimation], initial_state : Enum):
     self.animations_map : dict[Enum, SpritesheetAnimation] = animations_map
-    self.state : Enum = None
-    self.current_animation : SpritesheetAnimation = None
+    self.state : Enum = initial_state
+    self.current_animation : SpritesheetAnimation = self.animations_map[self.state]
 
   def set_state(self, state):
     if state != self.state:

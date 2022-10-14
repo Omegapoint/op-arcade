@@ -47,7 +47,8 @@ class Player():
     return Animator({
       PlayerAnimationState.IDLE : idle_animation, 
       PlayerAnimationState.WALKING_LEFT : walk_left_animation,
-      PlayerAnimationState.WALKING_RIGHT : walk_right_animation})
+      PlayerAnimationState.WALKING_RIGHT : walk_right_animation},
+      initial_state=PlayerAnimationState.IDLE)
 
   def calc_hitbox_center_pos(self) -> Vector2:
     return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
@@ -77,7 +78,6 @@ class Player():
 
   def draw(self, surface : pygame.Surface) -> None:
     # pygame.draw.circle(surface, self.color, to_surface_coordinates(self.calc_hitbox_center_pos()), Player._HITBOX_RADIUS) # <- the actual hitbox
-    current_animation_image = self.animator.get_current_image()
     current_animation_image = self.animator.get_current_image()
     current_animation_image = pygame.transform.rotate(current_animation_image, -math.degrees(self.angle) + 90)
     surface_coordinates = list(to_surface_coordinates(self.calc_sprite_pos()))
