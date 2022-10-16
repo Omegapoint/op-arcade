@@ -29,11 +29,11 @@ class PlayerAnimationState(Enum):
 
 class Player():
 
-  _HITBOX_CENTER_HEIGHT = 35
+  _HITBOX_CENTER_HEIGHT = 40
   _SPRITE_OFFSET = 27
   _HITBOX_RADIUS = 15
   _BLOOD_SPLATTER_OFFSET = 50
-  _ANGULAR_SPEED = (math.pi * 2) / 8
+  _ANGULAR_SPEED = (math.pi * 2) / 16
 
   def __init__(self, start_angle : float, color, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, world_props : WorldProps):
     self.inputs : arcade_lib.arcade_inputs.ArcadePlayerInput = inputs
@@ -45,8 +45,8 @@ class Player():
     
   def create_animator(self) -> Animator:
     idle_animation = SpritesheetAnimation(player_spritesheet, [(0,0)], 1)
-    walk_left_animation = SpritesheetAnimation(player_spritesheet, [(0,1),(0,2),(0,3),(1,1),(1,2),(1,3)], 10, is_flipped=True)
-    walk_right_animation = SpritesheetAnimation(player_spritesheet, [(0,1),(0,2),(0,3),(1,1),(1,2),(1,3)], 10)
+    walk_left_animation = SpritesheetAnimation(player_spritesheet, [(0,1),(0,2),(0,3),(1,1),(1,2),(1,3)], 8, is_flipped=True)
+    walk_right_animation = SpritesheetAnimation(player_spritesheet, [(0,1),(0,2),(0,3),(1,1),(1,2),(1,3)], 8)
     return Animator({
       PlayerAnimationState.IDLE : idle_animation, 
       PlayerAnimationState.WALKING_LEFT : walk_left_animation,
@@ -86,7 +86,7 @@ class Player():
     return UpdateResult.NONE
 
   def draw(self, surface : pygame.Surface) -> None:
-    # pygame.draw.circle(surface, self.color, to_surface_coordinates(self.calc_hitbox_center_pos()), Player._HITBOX_RADIUS) # <- the actual hitbox
+    pygame.draw.circle(surface, self.color, tuple(to_surface_coordinates(self.calc_hitbox_center_pos())), Player._HITBOX_RADIUS) # <- the actual hitbox
     current_animation_image = self.animator.get_current_image()
     current_animation_image = pygame.transform.rotate(current_animation_image, -math.degrees(self.angle) + 90)
     character_center = tuple(to_surface_coordinates(self.calc_character_center()))

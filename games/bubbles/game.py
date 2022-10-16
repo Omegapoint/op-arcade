@@ -7,8 +7,10 @@ from arcade_lib.arcade_inputs import ArcadeInput
 import os
 import math
 import pygame
+from games.bubbles.players import Players
 from games.bubbles.ready_countdown import ReadyCountdown
 from games.bubbles.start_screen import StartScreen
+from games.bubbles.stats_overlay import StatsOverlay
 
 from games.bubbles.world import World
 from games.bubbles.update_results import UpdateResult
@@ -23,7 +25,7 @@ class GameState(Enum):
 class Game:
   def __init__(self, inputs : ArcadeInput, start_from_level = 1):
     self.inputs : ArcadeInput= inputs
-    self.players : list[Player] = []
+    self.players : Players = None
     self.hooks : list[Hook] = []
     self.world : World = None
     self.game_objects : list[GameObject] = []
@@ -32,14 +34,13 @@ class Game:
     self.start_level(start_from_level)
     self.start_screen : StartScreen = StartScreen(self.inputs, self)
     self.state : GameState = GameState.START_SCREEN
+    self.stats_overlay : StatsOverlay = StatsOverlay(self)
 
   def start_level(self, level: int) -> None:
     self.current_level = level
     self.world = World(level)
-    self.players = []
+    self.players = Players(self.inputs, self.world.props)
     self.game_objects = []
-    for i in range(8):
-      self.players.append(Player((-i + 2) * 45, [255, 255, 255], self.inputs.player_inputs[i], self.world.props))
     self.hooks = []
     self.ready_countdown = ReadyCountdown()
     self.state = GameState.READY_SCREEN
@@ -67,10 +68,11 @@ class Game:
     if self.state == GameState.GAME_SCREEN:
       for game_object in self.game_objects:
         game_object.update(delta_time, self)
-      for player in self.players:
-        update_result = player.update(delta_time, self)
-        if update_result == UpdateResult.KILLME:
-          self.players.remove(player)
+      self.players.update(delta_time, self)
+      #for player in self.players:
+      #  update_result = player.update(delta_time, self)
+      #  if update_result == UpdateResult.KILLME:
+      #    self.players.remove(player)
       self.world.update(delta_time)
       for hook in self.hooks:
         update_result = hook.update(delta_time, self)
@@ -89,10 +91,14 @@ class Game:
       self.world.draw(surface)
       for game_object in self.game_objects:
         game_object.draw(surface)
-      for player in self.players:
-        player.draw(surface)
+      self.players.draw(surface)
+      #for player in self.players:
+      #  player.draw(surface)
       for hook in self.hooks:
         hook.draw(surface)
 
     if self.state == GameState.READY_SCREEN:
       self.ready_countdown.draw(surface)
+
+    if self.state != GameState.START_SCREEN:
+      self.stats_overlay.draw(surface)
