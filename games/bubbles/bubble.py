@@ -38,4 +38,4 @@ class Bubble:
     return Vector2.from_radial(self.radius, self.angle)
 
   def draw(self, surface : pygame.Surface) -> None:
-    pygame.draw.circle(surface, [255, 255, 255], to_surface_coordinates(self.calc_pos()), self.size)
+    pygame.draw.circle(surface, [0, 255, 255], tuple(to_surface_coordinates(self.calc_pos())), self.size)

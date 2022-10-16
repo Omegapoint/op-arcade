@@ -18,6 +18,9 @@ class Vector2:
   def __sub__(self, other: Vector2) -> Vector2:
     return Vector2(self.x - other.x, self.y - other.y)  
 
+  def __iter__(self):
+    return iter((self.x, self.y))
+
   def multiply(self, multiplier: float) -> Vector2:
     return Vector2(self.x * multiplier, self.y * multiplier)
   
@@ -31,6 +34,9 @@ class Vector2:
   def normalized(self) -> Vector2:
     magnitude_inv = 1.0 / self.magnitude()
     return self.multiply(magnitude_inv)
+
+  def unwrap(self) -> tuple[int, int]:
+    return self.x, self.y
 
   @classmethod
   def from_radial(cls, radius : float, angle : float) -> Vector2:

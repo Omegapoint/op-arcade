@@ -54,8 +54,8 @@ class World:
       self.bubbles.append(Bubble(start_angle=bubble.angle, start_radius=bubble.radius, size=new_size, tangential_velocity = -bubble.tangential_velocity))
 
   def draw(self, surface : pygame.Surface) -> None:
-    surface.fill([0,0,0])
-    pygame.draw.circle(surface, [255, 255, 255], to_surface_coordinates(Vector2()), self.props.inner_radius, 2)
-    pygame.draw.circle(surface, [255, 255, 255], to_surface_coordinates(Vector2()), self.props.outer_radius, 2)
+    surface.fill([255,255,255])
+    pygame.draw.circle(surface, [100, 255, 100], tuple(to_surface_coordinates(Vector2())), self.props.inner_radius, 2)
+    pygame.draw.circle(surface, [255, 100, 255], tuple(to_surface_coordinates(Vector2())), self.props.outer_radius, 2)
     for bubble in self.bubbles:
       bubble.draw(surface)

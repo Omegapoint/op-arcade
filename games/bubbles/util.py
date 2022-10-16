@@ -1,15 +1,21 @@
 from arcade_lib.vector2 import Vector2
 from arcade_lib.constants import SCREEN_WIDTH, SCREEN_HEIGHT
 import math
+import pygame
 
 
 HALF_SCREEN_WIDTH = SCREEN_WIDTH / 2.0
 HALF_SCREEN_HEIGHT = SCREEN_HEIGHT / 2.0
 
-def to_surface_coordinates(pos : Vector2):
+def to_surface_coordinates(pos : Vector2) -> Vector2:
   result = pos + Vector2(HALF_SCREEN_WIDTH, HALF_SCREEN_HEIGHT)
-  return result.x, result.y
+  return result
 
+def get_centered_sprite_pos(sprite : pygame.Surface, pos: Vector2) -> Vector2:
+  x, y = pos
+  x -= sprite.get_width() / 2
+  y -= sprite.get_height() / 2
+  return Vector2(x, y)
 
 def calc_line_segment_circle_intersections(circle_center : Vector2, circle_radius : float, line_start : Vector2, line_end : Vector2):
   # p is the circle parameter, lsp and lep is the two end of the line

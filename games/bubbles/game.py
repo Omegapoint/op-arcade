@@ -1,3 +1,4 @@
+from games.bubbles.game_object import GameObject
 from games.bubbles.player import Player
 from games.bubbles.bubble import Bubble
 from games.bubbles.hook import Hook
@@ -16,6 +17,7 @@ class Game:
     self.players : list[Player] = []
     self.hooks : list[Hook] = []
     self.world : World = None
+    self.game_objects : list[GameObject] = []
     self.ready_countdown : ReadyCountdown = None
     self.current_level = start_from_level
     self.initialize_level(start_from_level)
@@ -24,10 +26,17 @@ class Game:
     self.current_level = level
     self.world = World(level)
     self.players = []
+    self.game_objects = []
     for i in range(8):
       self.players.append(Player((-i + 2) * 45, [255, 255, 255], self.inputs.player_inputs[i], self.world.props))
     self.hooks = []
     self.ready_countdown = ReadyCountdown()
+
+  def register_gameobject(self, game_object : GameObject):
+    self.game_objects.append(game_object)
+
+  def destroy_gameobject(self, game_object : GameObject):
+    self.game_objects.remove(game_object)
 
   def register_hook(self, hook: Hook):
     self.hooks.append(hook)
@@ -37,6 +46,8 @@ class Game:
 
   def update(self, delta_time : float):
     self.inputs.update()
+    for game_object in self.game_objects:
+      game_object.update(delta_time, self)
     if self.ready_countdown.active:
       self.ready_countdown.update(delta_time)
     else:
@@ -56,6 +67,8 @@ class Game:
 
   def draw(self, surface : pygame.Surface):
     self.world.draw(surface)
+    for game_object in self.game_objects:
+      game_object.draw(surface)
     self.ready_countdown.draw(surface)
     for player in self.players:
       player.draw(surface)

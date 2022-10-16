@@ -1,7 +1,6 @@
 # Erik's note: modified from http://www.pygame.org/wiki/Spritesheet
 from enum import Enum
 import pygame
-import time
 
 pygame.display.init()
 
@@ -12,7 +11,7 @@ class Spritesheet(object):
     self.sprite_width : int = sprite_width
     self.sprite_height : int = sprite_height
     try:
-        self.sheet : pygame.Surface = pygame.image.load(filename)
+        self.sheet : pygame.Surface = pygame.image.load(filename).convert_alpha()
     except pygame.error as e:
         print ('Unable to load spritesheet image:', filename)
         print('error', e)
@@ -20,28 +19,51 @@ class Spritesheet(object):
 
   def image_at(self, row : int, col : int, colorkey=None):
       rect = pygame.Rect(self.sprite_width * col, self.sprite_height * row, self.sprite_width, self.sprite_height)
-      image = pygame.Surface(rect.size)
+      image = pygame.Surface(rect.size, flags=pygame.SRCALPHA)
       image.blit(self.sheet, (0, 0), rect)
       if not colorkey:
         colorkey = image.get_at((0, 0))
       image.set_colorkey(colorkey, pygame.RLEACCEL)
       return image
 
+
+class AnimationState(Enum):
+  NOT_STARTED = 0,
+  PLAYING = 1,
+  STOPPED = 2,
+  FINISHED = 3,
+
+
 class SpritesheetAnimation:
-  def __init__(self, spritesheet : Spritesheet, sheet_coords : list[(int, int)], fps : float, is_flipped : bool = False):
+  def __init__(self, spritesheet : Spritesheet, sheet_coords : list[(int, int)], fps : float, is_looping : bool = True, is_flipped : bool = False):
     "sheet coords row, col : 0-indexed"
     self.spritesheet : Spritesheet = spritesheet
     self.sheet_coords : list[(int, int)] = sheet_coords
     self.fps : float = fps
-    self.start_time : float = 0
     self.is_flipped : bool = is_flipped
+    self.is_looping : bool = is_looping
+    self.playtime : float= 0.0
+    self.state : AnimationState = AnimationState.NOT_STARTED
     
+  def update(self, delta_time: float):
+    if (self.state == AnimationState.PLAYING):
+      self.playtime += delta_time
+
   def restart(self):
-    self.start_time = time.time()
+    self.playtime = 0.0
+    self.state = AnimationState.PLAYING
+
+  def stop(self):
+    self.state = AnimationState.STOPPED
 
   def get_current_image(self) -> pygame.Surface:
-    cycles_since_start = int((time.time() - self.start_time) * self.fps)
-    current_frame = cycles_since_start % len(self.sheet_coords)
+    cycles_since_start = int(self.playtime * self.fps)
+    if not self.is_looping and cycles_since_start > len(self.sheet_coords):
+      current_frame = len(self.sheet_coords) -1
+      if self.state == AnimationState.PLAYING:
+        self.state = AnimationState.FINISHED
+    else:
+      current_frame = cycles_since_start % len(self.sheet_coords)
     image = self.spritesheet.image_at(self.sheet_coords[current_frame][0], self.sheet_coords[current_frame][1])
     if self.is_flipped:
       image = pygame.transform.flip(image, flip_x=True, flip_y=False)
@@ -61,3 +83,6 @@ class Animator:
 
   def get_current_image(self) -> pygame.Surface:
     return self.current_animation.get_current_image()
+
+  def update(self, delta_time : float):
+    self.current_animation.update(delta_time)

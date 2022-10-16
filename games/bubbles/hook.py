@@ -41,7 +41,7 @@ class Hook:
     return Vector2.from_radial(self.curr_radius, self.angle)
 
   def draw(self, surface : pygame.Surface):
-    start_pos_surf = to_surface_coordinates(self.calc_start_pos())
-    end_pos_surf = to_surface_coordinates(self.calc_end_pos())
-    pygame.draw.line(surface, [255, 255, 255], start_pos_surf, end_pos_surf, 2)
-    pygame.draw.circle(surface, [255, 255, 255], end_pos_surf, 4, 2)
+    start_pos_surf = tuple(to_surface_coordinates(self.calc_start_pos()))
+    end_pos_surf = tuple(to_surface_coordinates(self.calc_end_pos()))
+    pygame.draw.line(surface, [0, 0, 0], start_pos_surf, end_pos_surf, 2)
+    pygame.draw.circle(surface, [255, 100, 100], end_pos_surf, 4, 2)
