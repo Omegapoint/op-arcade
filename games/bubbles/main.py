@@ -3,7 +3,7 @@ from arcade_lib.arcade_inputs import ArcadeInput
 import os
 
 def main():
-  inputs : list[ArcadeInput] = None
+  inputs : ArcadeInput = None
   if os.environ.get("OP_ARCADE"):
     inputs = ArcadeInput("OP_ARCADE")
   else:

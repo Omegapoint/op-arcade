@@ -5,7 +5,6 @@ Most positions are in radial coordinate system using radians.
 Euclidean coordinates used for drawing and circle-circle and circle-line_segment collission detection.
 
 ## TODO
-- hit effects when hitting bubbles
 - start screen
   - choose level
   - press big button to start
