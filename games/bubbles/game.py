@@ -57,7 +57,7 @@ class Game:
           self.players.remove(player)
       self.world.update(delta_time)
       for hook in self.hooks:
-        update_result = hook.update(delta_time, self.world)
+        update_result = hook.update(delta_time, self)
         if update_result == UpdateResult.KILLME:
           self.unregister_hook(hook)
           hook.player.hook = None
