@@ -30,5 +30,5 @@ class ReadyCountdown:
         pygame.draw.circle(surface, [0, 255, 0], tuple(to_surface_coordinates(Vector2())), 70, 20)
       text_render = font.render(text, False, [0, 0, 0])
       text_rect = text_render.get_rect()
-      text_rect.center = tuple(to_surface_coordinates(Vector2()))
+      text_rect.center = tuple(to_surface_coordinates(Vector2(0, 20)))
       surface.blit(text_render, text_rect)

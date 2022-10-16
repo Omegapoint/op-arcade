@@ -7,10 +7,10 @@ Euclidean coordinates used for drawing and circle-circle and circle-line_segment
 ## TODO
 - countdown until game over
 - start screen
+  - choose level
+  - press big button to start
 - on-screen sore and level
-- blood stains
-  - on floor and wall
-  - on bubble
+- blood stains on bubble
 - different bubbles
   - one that spawns 4
   - one with different bounce rules
