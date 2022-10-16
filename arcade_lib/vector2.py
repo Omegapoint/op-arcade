@@ -18,12 +18,12 @@ class Vector2:
   def __sub__(self, other: Vector2) -> Vector2:
     return Vector2(self.x - other.x, self.y - other.y)  
 
+  def __mul__(self, other : float) -> Vector2:
+    return Vector2(self.x * other, self.y * other)
+
   def __iter__(self):
     return iter((self.x, self.y))
 
-  def multiply(self, multiplier: float) -> Vector2:
-    return Vector2(self.x * multiplier, self.y * multiplier)
-  
   def magnitude(self) -> float:
     return math.sqrt(self.x * self.x + self.y * self.y)
 
@@ -38,6 +38,10 @@ class Vector2:
   def unwrap(self) -> tuple[int, int]:
     return self.x, self.y
 
+  def calc_point_between(self, other : Vector2) -> Vector2:
+    return self + ((other - self) * 0.5)
+
+
   @classmethod
   def from_radial(cls, radius : float, angle : float) -> Vector2:
-    return Vector2(math.cos(angle), math.sin(angle)).multiply(radius)
+    return Vector2(math.cos(angle), math.sin(angle)) * radius

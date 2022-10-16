@@ -7,7 +7,7 @@ if TYPE_CHECKING:
   
 from games.bubbles.update_results import UpdateResult
 from arcade_lib.vector2 import Vector2
-from games.bubbles.util import to_surface_coordinates, calc_line_segment_circle_intersections
+from games.bubbles.util import to_surface_coordinates, circle_line_segment_intersection
 
 import pygame
 
@@ -25,9 +25,15 @@ class Hook:
   def update(self, delta_time : float, game: Game) -> UpdateResult:
     self.curr_radius -= Hook._SPEED * delta_time
     for bubble in game.world.bubbles:
-      if calc_line_segment_circle_intersections(bubble.calc_pos(), bubble.size, self.calc_start_pos(), self.calc_end_pos()):
+      #hits = calc_line_segment_circle_intersections(bubble.calc_pos(), bubble.size, self.calc_start_pos(), self.calc_end_pos())
+      hits = circle_line_segment_intersection(bubble.calc_pos(), bubble.size, self.calc_start_pos(), self.calc_end_pos())
+      if hits:
+        if len(hits) == 2:
+          hit = hits[0].calc_point_between(hits[1])
+        else:
+          hit = hits[0]
+        game.register_gameobject(HitMarker(hit))
         game.world.bubble_hit(bubble)
-        game.register_gameobject(HitMarker(self.calc_end_pos())) # TODO: actual position
         return UpdateResult.KILLME
     if self.curr_radius <= game.world.props.inner_radius:
       return UpdateResult.KILLME

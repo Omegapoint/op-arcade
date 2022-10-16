@@ -17,36 +17,39 @@ def get_centered_sprite_pos(sprite : pygame.Surface, pos: Vector2) -> Vector2:
   y -= sprite.get_height() / 2
   return Vector2(x, y)
 
-def calc_line_segment_circle_intersections(circle_center : Vector2, circle_radius : float, line_start : Vector2, line_end : Vector2):
-  # p is the circle parameter, lsp and lep is the two end of the line
-  x0, y0 = (circle_center.x, circle_center.y)
-  r0 = circle_radius
-  x1,y1 = (line_start.x, line_start.y)
-  x2,y2 = (line_end.x, line_end.y)
-  if x1 == x2:
-    if abs(r0) >= abs(x1 - x0):
-        p1 = x1, y0 - math.sqrt(r0**2 - (x1-x0)**2)
-        p2 = x1, y0 + math.sqrt(r0**2 - (x1-x0)**2)
-        inp = [p1,p2]
-        # select the points lie on the line segment
-        inp = [p for p in inp if p[1]>=min(y1,y2) and p[1]<=max(y1,y2)]
+
+def circle_line_segment_intersection(circle_center : Vector2, circle_radius : float, pt1 : Vector2, pt2 : Vector2, tangent_tol=1e-9) -> tuple[Vector2]:
+  """ Find the points at which a circle intersects a line-segment.  This can happen at 0, 1, or 2 points.
+
+  :param circle_center: The (x, y) location of the circle center
+  :param circle_radius: The radius of the circle
+  :param pt1: The (x, y) location of the first point of the segment
+  :param pt2: The (x, y) location of the second point of the segment
+  :param full_line: True to find intersections along full line - not just in the segment.  False will just return intersections within the segment.
+  :param tangent_tol: Numerical tolerance at which we decide the intersections are close enough to consider it a tangent
+  :return Sequence[Tuple[float, float]]: A list of length 0, 1, or 2, where each element is a point at which the circle intercepts a line segment.
+
+  Note: We follow: http://mathworld.wolfram.com/Circle-LineIntersection.html
+  modified from https://stackoverflow.com/a/59582674/1151424
+  """
+
+  (p1x, p1y), (p2x, p2y), (cx, cy) = pt1, pt2, circle_center
+  (x1, y1), (x2, y2) = (p1x - cx, p1y - cy), (p2x - cx, p2y - cy)
+  dx, dy = (x2 - x1), (y2 - y1)
+  dr = (dx ** 2 + dy ** 2)**.5
+  big_d = x1 * y2 - x2 * y1
+  discriminant = circle_radius ** 2 * dr ** 2 - big_d ** 2
+
+  if discriminant < 0:  # No intersection between circle and line
+    return []
+  else:  # There may be 0, 1, or 2 intersections with the segment
+    intersections = [
+      (cx + (big_d * dy + sign * (-1 if dy < 0 else 1) * dx * discriminant**.5) / dr ** 2,
+        cy + (-big_d * dx + sign * abs(dy) * discriminant**.5) / dr ** 2)
+      for sign in ((1, -1) if dy < 0 else (-1, 1))]  # This makes sure the order along the segment is correct
+    fraction_along_segment = [(xi - p1x) / dx if abs(dx) > abs(dy) else (yi - p1y) / dy for xi, yi in intersections]
+    intersections = [pt for pt, frac in zip(intersections, fraction_along_segment) if 0 <= frac <= 1]
+    if len(intersections) == 2 and abs(discriminant) <= tangent_tol:  # If line is tangent to circle, return just one point (as both intersections have same location)
+      return [Vector2(intersections[0][0], intersections[0][1])]
     else:
-        inp = []
-  else:
-    k = (y1 - y2)/(x1 - x2)
-    b0 = y1 - k*x1
-    a = k**2 + 1
-    b = 2*k*(b0 - y0) - 2*x0
-    c = (b0 - y0)**2 + x0**2 - r0**2
-    delta = b**2 - 4*a*c
-    if delta >= 0:
-        p1x = (-b - math.sqrt(delta))/(2*a)
-        p2x = (-b + math.sqrt(delta))/(2*a)
-        p1y = k*x1 + b0
-        p2y = k*x2 + b0
-        inp = [[p1x,p1y],[p2x,p2y]]
-        # select the points lie on the line segment
-        inp = [p for p in inp if p[0]>=min(x1,x2) and p[0]<=max(x1,x2)]
-    else:
-        inp = []
-  return inp
+      return [Vector2(i[0], i[1]) for i in intersections]

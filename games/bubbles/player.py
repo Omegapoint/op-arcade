@@ -54,13 +54,13 @@ class Player():
       initial_state=PlayerAnimationState.IDLE)
 
   def calc_hitbox_center_pos(self) -> Vector2:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
 
   def calc_character_center(self) -> tuple[Vector2, Vector2]:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._SPRITE_OFFSET) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._SPRITE_OFFSET) 
 
   def calc_splatter_center(self) -> tuple[Vector2, Vector2]:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)).multiply(self.world_props.outer_radius - Player._BLOOD_SPLATTER_OFFSET) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._BLOOD_SPLATTER_OFFSET) 
 
 
   def update(self, delta_time : float, game : Game) -> UpdateResult:
