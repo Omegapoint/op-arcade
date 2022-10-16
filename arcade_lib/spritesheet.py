@@ -21,9 +21,9 @@ class Spritesheet(object):
       rect = pygame.Rect(self.sprite_width * col, self.sprite_height * row, self.sprite_width, self.sprite_height)
       image = pygame.Surface(rect.size, flags=pygame.SRCALPHA)
       image.blit(self.sheet, (0, 0), rect)
-      if not colorkey:
-        colorkey = image.get_at((0, 0))
-      image.set_colorkey(colorkey, pygame.RLEACCEL)
+      #if not colorkey:
+      #  colorkey = image.get_at((0, 0))
+      #image.set_colorkey(colorkey, pygame.RLEACCEL)
       return image
 
 
@@ -58,7 +58,7 @@ class SpritesheetAnimation:
 
   def get_current_image(self) -> pygame.Surface:
     cycles_since_start = int(self.playtime * self.fps)
-    if not self.is_looping and cycles_since_start > len(self.sheet_coords):
+    if not self.is_looping and cycles_since_start >= len(self.sheet_coords):
       current_frame = len(self.sheet_coords) -1
       if self.state == AnimationState.PLAYING:
         self.state = AnimationState.FINISHED

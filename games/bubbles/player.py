@@ -32,7 +32,7 @@ class Player():
   _HITBOX_CENTER_HEIGHT = 35
   _SPRITE_OFFSET = 27
   _HITBOX_RADIUS = 15
-  _BLOOD_SPLATTER_OFFSET = 0
+  _BLOOD_SPLATTER_OFFSET = 50
   _ANGULAR_SPEED = (math.pi * 2) / 8
 
   def __init__(self, start_angle : float, color, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, world_props : WorldProps):
