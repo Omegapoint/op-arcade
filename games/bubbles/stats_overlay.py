@@ -30,8 +30,17 @@ class StatsOverlay:
     trubbel_text_rect.center = tuple(to_surface_coordinates(Vector2(-700, 20)))
     surface.blit(trubbel_text_render, trubbel_text_rect)
 
-    trubbel_text_render = font.render(f"Bana {self.game.current_level}", False, [0, 0, 0])
-    trubbel_text_rect = trubbel_text_render.get_rect()
-    trubbel_text_rect.center = tuple(to_surface_coordinates(Vector2(700, 0)))
-    surface.blit(trubbel_text_render, trubbel_text_rect)
+    self.__draw_at_level(surface)
+    self.__draw_timer(surface)
 
+  def __draw_at_level(self, surface : pygame.Surface) -> None:
+    level_text_render = font.render(f"Bana {self.game.current_level}", False, [0, 0, 0])
+    level_text_rect = level_text_render.get_rect()
+    level_text_rect.center = tuple(to_surface_coordinates(Vector2(700, 0)))
+    surface.blit(level_text_render, level_text_rect)
+
+  def __draw_timer(self, surface : pygame.Surface) -> None:
+    text_render = font.render(f'{self.game.players.time_left:.2f}', False, [0, 0, 0])
+    text_rect = text_render.get_rect()
+    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 0)))
+    surface.blit(text_render, text_rect)

@@ -25,21 +25,21 @@ class GameState(Enum):
 class Game:
   def __init__(self, inputs : ArcadeInput, start_from_level = 1):
     self.inputs : ArcadeInput= inputs
-    self.players : Players = None
     self.hooks : list[Hook] = []
     self.world : World = None
     self.game_objects : list[GameObject] = []
     self.ready_countdown : ReadyCountdown = None
     self.current_level = start_from_level
-    self.start_level(start_from_level)
     self.start_screen : StartScreen = StartScreen(self.inputs, self)
     self.state : GameState = GameState.START_SCREEN
     self.stats_overlay : StatsOverlay = StatsOverlay(self)
+    self.players : Players = Players(self.inputs)
+    self.start_level(start_from_level)
 
   def start_level(self, level: int) -> None:
     self.current_level = level
     self.world = World(level)
-    self.players = Players(self.inputs, self.world.props)
+    self.players.start_new_level(self.world.props)
     self.game_objects = []
     self.hooks = []
     self.ready_countdown = ReadyCountdown()
@@ -69,10 +69,6 @@ class Game:
       for game_object in self.game_objects:
         game_object.update(delta_time, self)
       self.players.update(delta_time, self)
-      #for player in self.players:
-      #  update_result = player.update(delta_time, self)
-      #  if update_result == UpdateResult.KILLME:
-      #    self.players.remove(player)
       self.world.update(delta_time)
       for hook in self.hooks:
         update_result = hook.update(delta_time, self)
@@ -92,8 +88,6 @@ class Game:
       for game_object in self.game_objects:
         game_object.draw(surface)
       self.players.draw(surface)
-      #for player in self.players:
-      #  player.draw(surface)
       for hook in self.hooks:
         hook.draw(surface)
 

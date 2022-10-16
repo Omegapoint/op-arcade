@@ -19,7 +19,6 @@ class World:
   def __init__(self, level : int):
     self.props : WorldProps = self.__init_props(level)
     self.bubbles : list[Bubble] = self.__init_bubbles(level)
-    self.time_left : float = self.props.seconds_until_game_over
 
   def __init_props(self, level : int):
     return WorldProps(500, 100, seconds_until_game_over = 60)
@@ -47,7 +46,6 @@ class World:
       ]
 
   def update(self, delta_time : float):
-    self.time_left -= delta_time
     for bubble in self.bubbles:
       bubble.update(delta_time, self)
 
@@ -60,14 +58,7 @@ class World:
 
   def draw(self, surface : pygame.Surface) -> None:
     surface.fill([200,200,200])
-    self.__draw_timer(surface)
     pygame.draw.circle(surface, [100, 255, 100], tuple(to_surface_coordinates(Vector2())), self.props.inner_radius, 2)
     pygame.draw.circle(surface, [255, 100, 255], tuple(to_surface_coordinates(Vector2())), self.props.outer_radius, 2)
     for bubble in self.bubbles:
       bubble.draw(surface)
-
-  def __draw_timer(self, surface : pygame.Surface) -> None:
-    text_render = font.render(f'{self.time_left:.2f}', False, [0, 0, 0])
-    text_rect = text_render.get_rect()
-    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 0)))
-    surface.blit(text_render, text_rect)
