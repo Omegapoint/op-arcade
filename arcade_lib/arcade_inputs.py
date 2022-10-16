@@ -9,10 +9,18 @@ class ArcadePlayerInput:
     self.__right_button_down : bool = False
     self.__action_button_down : bool = False
 
+    self.__last_frame_left_button : bool = False
+    self.__last_frame_right_button : bool = False
+    self.__last_frame_action_button : bool = False
+
   def update(self) -> None:
-    self.__left_button_down = not self.__left_button_down and self.get_left_button_state()
-    self.__right_button_down = not self.__right_button_down and self.get_right_button_state()
-    self.__action_button_down = not self.__action_button_down and self.get_action_button_state()
+    self.__left_button_down = not self.__last_frame_left_button and self.get_left_button_state()
+    self.__right_button_down = not self.__last_frame_right_button and self.get_right_button_state()
+    self.__action_button_down = not self.__last_frame_action_button and self.get_action_button_state()
+    
+    self.__last_frame_left_button = self.get_left_button_state()
+    self.__last_frame_right_button = self.get_right_button_state()
+    self.__last_frame_action_button = self.get_action_button_state()
 
   def get_left_button_down(self) -> bool:
     return self.__left_button_down

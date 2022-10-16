@@ -30,7 +30,7 @@ class Game:
     self.ready_countdown : ReadyCountdown = None
     self.current_level = start_from_level
     self.start_level(start_from_level)
-    self.start_screen : StartScreen = StartScreen(self.inputs)
+    self.start_screen : StartScreen = StartScreen(self.inputs, self)
     self.state : GameState = GameState.START_SCREEN
 
   def start_level(self, level: int) -> None:
