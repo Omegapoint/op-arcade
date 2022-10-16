@@ -23,18 +23,17 @@ class GameState(Enum):
 
 
 class Game:
-  def __init__(self, inputs : ArcadeInput, start_from_level = 1):
+  def __init__(self, inputs : ArcadeInput):
     self.inputs : ArcadeInput= inputs
     self.hooks : list[Hook] = []
     self.world : World = None
     self.game_objects : list[GameObject] = []
     self.ready_countdown : ReadyCountdown = None
-    self.current_level = start_from_level
+    self.current_level = 1
     self.start_screen : StartScreen = StartScreen(self.inputs, self)
     self.state : GameState = GameState.START_SCREEN
     self.stats_overlay : StatsOverlay = StatsOverlay(self)
     self.players : Players = Players(self.inputs)
-    self.start_level(start_from_level)
 
   def start_level(self, level: int) -> None:
     self.current_level = level
@@ -76,6 +75,7 @@ class Game:
           self.unregister_hook(hook)
           hook.player.hook = None
       if len(self.world.bubbles) == 0:
+        self.players.add_score(self.players.time_left * self.current_level)
         self.start_level(self.current_level + 1)
 
 

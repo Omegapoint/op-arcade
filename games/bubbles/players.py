@@ -17,7 +17,8 @@ class Players():
     self.score : int = 0
     self.players : list[Player] = []
 
-    
+  def add_score(self, score : int):
+    self.score += int(score)
 
   def start_new_level(self, worldProps : WorldProps):
     self.time_left : float = worldProps.seconds_until_game_over

@@ -32,6 +32,13 @@ class StatsOverlay:
 
     self.__draw_at_level(surface)
     self.__draw_timer(surface)
+    self.__draw_score(surface)
+
+  def __draw_score(self, surface : pygame.Surface) -> None:
+    text_render = font.render(f'Poäng: {self.game.players.score}', False, [0, 0, 0])
+    text_rect = text_render.get_rect()
+    text_rect.center = tuple(to_surface_coordinates(Vector2(700, 40)))
+    surface.blit(text_render, text_rect)
 
   def __draw_at_level(self, surface : pygame.Surface) -> None:
     level_text_render = font.render(f"Bana {self.game.current_level}", False, [0, 0, 0])

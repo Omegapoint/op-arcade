@@ -13,7 +13,7 @@ def main():
   clock = pygame.time.Clock()
 
   from games.bubbles.game import Game
-  game = Game(inputs, start_from_level=3)
+  game = Game(inputs)
 
   while True:
     delta_time_millis = clock.tick()
