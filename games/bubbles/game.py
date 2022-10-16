@@ -60,7 +60,7 @@ class Game:
     self.inputs.update()
     if self.state == GameState.START_SCREEN:
       if self.start_screen.update(delta_time) == UpdateResult.DONE:
-        self.start_level(level = 1)
+        self.start_level(self.current_level)
     if self.state == GameState.READY_SCREEN:
       if self.ready_countdown.update(delta_time) == UpdateResult.DONE:
         self.state = GameState.GAME_SCREEN
@@ -84,14 +84,15 @@ class Game:
   def draw(self, surface : pygame.Surface):
     if self.state == GameState.START_SCREEN:
       self.start_screen.draw(surface)
-    if self.state == GameState.READY_SCREEN:
-      self.ready_countdown.draw(surface)
+    
     if self.state == GameState.READY_SCREEN or self.state == GameState.GAME_SCREEN:
       self.world.draw(surface)
       for game_object in self.game_objects:
         game_object.draw(surface)
-      self.ready_countdown.draw(surface)
       for player in self.players:
         player.draw(surface)
       for hook in self.hooks:
         hook.draw(surface)
+
+    if self.state == GameState.READY_SCREEN:
+      self.ready_countdown.draw(surface)

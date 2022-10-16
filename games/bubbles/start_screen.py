@@ -19,9 +19,9 @@ class StartScreen:
 
   def update(self, delta_time : float) -> UpdateResult:
     if self.inputs.player_inputs[0].get_left_button_down():
-      self.game.current_level -= 1
+      self.game.current_level = max(self.game.current_level - 1, 1)
     elif self.inputs.player_inputs[0].get_right_button_down():
-      self.game.current_level += 1
+      self.game.current_level = min(self.game.current_level + 1, 10)
     elif self.inputs.get_start_button_state():
       return UpdateResult.DONE
     return UpdateResult.NONE
