@@ -22,12 +22,11 @@ class StartScreen:
       self.game.current_level = max(self.game.current_level - 1, 1)
     elif self.inputs.player_inputs[0].get_right_button_down():
       self.game.current_level = min(self.game.current_level + 1, 10)
-    elif self.inputs.get_start_button_state():
+    elif self.inputs.get_start_button_down():
       return UpdateResult.DONE
     return UpdateResult.NONE
 
   def draw(self, surface : pygame.Surface):
-
     surface.fill([200,200,200])
 
     bubbelt_text_render = font.render("BUBBELT", False, [0, 0, 0])

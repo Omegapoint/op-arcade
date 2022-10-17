@@ -1,7 +1,6 @@
 from enum import Enum
+from games.bubbles.end_screen import EndScreen
 from games.bubbles.game_object import GameObject
-from games.bubbles.player import Player
-from games.bubbles.bubble import Bubble
 from games.bubbles.hook import Hook
 from arcade_lib.arcade_inputs import ArcadeInput
 import os
@@ -31,6 +30,7 @@ class Game:
     self.ready_countdown : ReadyCountdown = None
     self.current_level = 1
     self.start_screen : StartScreen = StartScreen(self.inputs, self)
+    self.end_screen : EndScreen = EndScreen(self.inputs, self)
     self.state : GameState = GameState.START_SCREEN
     self.stats_overlay : StatsOverlay = StatsOverlay(self)
     self.players : Players = Players(self.inputs)
@@ -61,10 +61,10 @@ class Game:
     if self.state == GameState.START_SCREEN:
       if self.start_screen.update(delta_time) == UpdateResult.DONE:
         self.start_level(self.current_level)
-    if self.state == GameState.READY_SCREEN:
+    elif self.state == GameState.READY_SCREEN:
       if self.ready_countdown.update(delta_time) == UpdateResult.DONE:
         self.state = GameState.GAME_SCREEN
-    if self.state == GameState.GAME_SCREEN:
+    elif self.state == GameState.GAME_SCREEN:
       for game_object in self.game_objects:
         game_object.update(delta_time, self)
       self.players.update(delta_time, self)
@@ -77,22 +77,28 @@ class Game:
       if len(self.world.bubbles) == 0:
         self.players.add_score(self.players.time_left * self.current_level)
         self.start_level(self.current_level + 1)
+      elif len(self.players.players) == 0:
+        self.state = GameState.GAME_OVER_SCREEN
+    elif self.state == GameState.GAME_OVER_SCREEN:
+      if self.end_screen.update(delta_time) == UpdateResult.DONE:
+        self.state = GameState.START_SCREEN
 
 
   def draw(self, surface : pygame.Surface):
     if self.state == GameState.START_SCREEN:
       self.start_screen.draw(surface)
     
-    if self.state == GameState.READY_SCREEN or self.state == GameState.GAME_SCREEN:
+    if self.state in (GameState.READY_SCREEN, GameState.GAME_SCREEN):
       self.world.draw(surface)
       for game_object in self.game_objects:
         game_object.draw(surface)
       self.players.draw(surface)
       for hook in self.hooks:
         hook.draw(surface)
+      self.stats_overlay.draw(surface)
 
     if self.state == GameState.READY_SCREEN:
       self.ready_countdown.draw(surface)
 
-    if self.state != GameState.START_SCREEN:
-      self.stats_overlay.draw(surface)
+    if self.state == GameState.GAME_OVER_SCREEN:
+      self.end_screen.draw(surface)

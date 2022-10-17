@@ -85,6 +85,8 @@ class ArcadeInput:
     self.player_inputs : list[ArcadePlayerInput] = []
     self.mode = mode
     self.start_button_joystick = None
+    self.__last_frame_start_button : bool = False
+    self.__start_button_down : bool = False
     if self.mode == "OP_ARCADE":
       joystick0 = pygame.joystick.Joystick(0)
       joystick1 = pygame.joystick.Joystick(1)
@@ -120,9 +122,12 @@ class ArcadeInput:
       keys = pygame.key.get_pressed()
       return keys[K_RETURN]
 
-
+  def get_start_button_down(self):
+    return self.__start_button_down
 
   def update(self) -> None:
     pygame.event.get()
+    self.__start_button_down = not self.__last_frame_start_button and self.get_start_button_state()
+    self.__last_frame_start_button = self.get_start_button_state()
     for input in self.player_inputs:
       input.update()
