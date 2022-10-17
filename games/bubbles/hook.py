@@ -25,7 +25,6 @@ class Hook:
   def update(self, delta_time : float, game: Game) -> UpdateResult:
     self.curr_radius -= Hook._SPEED * delta_time
     for bubble in game.world.bubbles:
-      #hits = calc_line_segment_circle_intersections(bubble.calc_pos(), bubble.size, self.calc_start_pos(), self.calc_end_pos())
       hits = circle_line_segment_intersection(bubble.calc_pos(), bubble.size, self.calc_start_pos(), self.calc_end_pos())
       if hits:
         if len(hits) == 2:

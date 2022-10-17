@@ -1,4 +1,4 @@
-from games.bubbles.bubble import Bubble
+from games.bubbles.bubble import Bubble, BubbleType
 from games.bubbles.util import to_surface_coordinates
 from arcade_lib.vector2 import Vector2
 import pygame
@@ -25,24 +25,24 @@ class World:
 
   def __init_bubbles(self, level : int):
     if level == 1:
-      return [Bubble(0, 200, 100, math.pi * 2 / 16)]
+      return [Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL)]
     if level == 2:
       return [
-        Bubble(0, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi, 200, 100, math.pi * 2 / 16),
+        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
       ]
     if level == 3:
       return [
-        Bubble(0, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi * 2 / 3, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi * 2 * 2 / 3, 200, 100, math.pi * 2 / 16),
+        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi * 2 / 3, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi * 2 * 2 / 3, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
       ]
     if level == 4:
       return [
-        Bubble(0, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi * 2 / 4, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi * 2 * 2 / 4, 200, 100, math.pi * 2 / 16),
-        Bubble(math.pi * 2 * 3 / 4, 200, 100, math.pi * 2 / 16),
+        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
+        Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
       ]
 
   def update(self, delta_time : float):
@@ -50,11 +50,9 @@ class World:
       bubble.update(delta_time, self)
 
   def bubble_hit(self, bubble : Bubble):
-    new_size = bubble.size * 2 / 3
     self.bubbles.remove(bubble)
-    if (new_size > Bubble.SMALLEST_RADIUS):
-      self.bubbles.append(Bubble(start_angle=bubble.angle, start_radius=bubble.radius, size=new_size, tangential_velocity = bubble.tangential_velocity))
-      self.bubbles.append(Bubble(start_angle=bubble.angle, start_radius=bubble.radius, size=new_size, tangential_velocity = -bubble.tangential_velocity))
+    for new_bubble in bubble.get_spawns():
+      self.bubbles.append(new_bubble)
 
   def draw(self, surface : pygame.Surface) -> None:
     surface.fill([200,200,200])
