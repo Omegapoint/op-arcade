@@ -9,7 +9,6 @@ Euclidean coordinates used for drawing and circle-circle and circle-line_segment
   - one that spawns 4
   - one with different bounce rules
 - radial walls that blocks bubbles
-- game over and end screen with score
 - combo: if you reach the roof, destroys the bubbles (too overpowered?)
 - high-score table
 - blood stains on bubble

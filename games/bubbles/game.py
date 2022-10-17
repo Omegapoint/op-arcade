@@ -77,7 +77,7 @@ class Game:
       if len(self.world.bubbles) == 0:
         self.players.add_score(self.players.time_left * self.current_level)
         self.start_level(self.current_level + 1)
-      elif len(self.players.players) == 0:
+      elif len(self.players.players) == 0 or self.players.time_left <= 0:
         self.state = GameState.GAME_OVER_SCREEN
     elif self.state == GameState.GAME_OVER_SCREEN:
       if self.end_screen.update(delta_time) == UpdateResult.DONE:

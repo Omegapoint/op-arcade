@@ -20,6 +20,7 @@ class Bubble:
     self.radial_velocity : float = 0
     self.tangential_velocity : float = tangential_velocity
     self.size : float = size
+    self.score = 5
 
   def apply_gravity(self, delta_time: float):
     self.radial_velocity += Bubble.RADIAL_ACCELERATION * delta_time
