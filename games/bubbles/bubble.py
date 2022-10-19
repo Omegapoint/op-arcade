@@ -61,6 +61,7 @@ class Bubble:
 
   def draw(self, surface : pygame.Surface) -> None:
     pygame.draw.circle(surface, self.color, tuple(to_surface_coordinates(self.calc_pos())), self.size)
+    pygame.draw.circle(surface, [0,0,0], tuple(to_surface_coordinates(self.calc_pos())), self.size, 1)
 
   def bounce(self, outer_radius : float):
     self.radius = outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly even though it is easy)

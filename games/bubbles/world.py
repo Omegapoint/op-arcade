@@ -7,12 +7,14 @@ import math
 pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 20)
 
+LEVEL_COLORS = ((200, 200, 200), (150, 200, 200), (200, 150, 200), (200, 200, 150), (150, 220, 150), (220, 150, 150))
 
 class WorldProps:
-  def __init__(self, outer_radius : int, inner_radius : int, seconds_until_game_over : float = 60):
+  def __init__(self, outer_radius : int, inner_radius : int, color: tuple[int, int, int], seconds_until_game_over : float):
     self.outer_radius : int = outer_radius
     self.inner_radius : int = inner_radius
     self.seconds_until_game_over : int = seconds_until_game_over
+    self.color: tuple[int, int, int] = color
 
 
 class World:
@@ -21,17 +23,28 @@ class World:
     self.bubbles : list[Bubble] = self.__init_bubbles(level)
 
   def __init_props(self, level : int):
-    return WorldProps(500, 100, seconds_until_game_over = 60)
+    return WorldProps(500, 100, color = LEVEL_COLORS[(level - 1)%len(LEVEL_COLORS)], seconds_until_game_over = 60.0)
 
   def __init_bubbles(self, level : int):
     if level == 1:
       return [Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL)]
     if level == 2:
       return [
-        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
-        Bubble(start_angle = math.pi, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 12, type = BubbleType.MEDIUM_NORMAL),
+        Bubble(start_angle = math.pi, start_radius = 200, tangential_velocity = math.pi * 2 / 12, type = BubbleType.MEDIUM_NORMAL),
       ]
     if level == 3:
+      return [
+        Bubble(start_angle = math.pi * 2 * 1 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+        Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
+      ]
+    if level == 4:
+      return [
+        Bubble(start_angle = math.pi * 2 * 0 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
+        Bubble(start_angle = math.pi * 2 * 1 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
+        Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
+      ]
+    if level == 5:
       return [
         Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
         Bubble(start_angle = 0, start_radius = 150, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
@@ -40,14 +53,14 @@ class World:
         Bubble(start_angle = math.pi * 2 * 2 / 3, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
         Bubble(start_angle = math.pi * 2 * 2 / 3, start_radius = 150, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
       ]
-    if level == 4:
+    if level == 6:
       return [
         Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
         Bubble(start_angle = math.pi * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
         Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
         Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
       ]
-    if level == 5:
+    if level == 7:
       return [
         Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
         Bubble(start_angle = math.pi * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
@@ -65,8 +78,9 @@ class World:
       self.bubbles.append(new_bubble)
 
   def draw(self, surface : pygame.Surface) -> None:
-    surface.fill([200,200,200])
-    pygame.draw.circle(surface, [100, 255, 100], tuple(to_surface_coordinates(Vector2())), self.props.inner_radius, 2)
-    pygame.draw.circle(surface, [255, 100, 255], tuple(to_surface_coordinates(Vector2())), self.props.outer_radius, 2)
+    surface.fill(self.props.color)
+    print(self.props.color)
+    pygame.draw.circle(surface, [100, 255, 100], tuple(to_surface_coordinates(Vector2())), self.props.inner_radius, 4)
+    pygame.draw.circle(surface, [255, 100, 255], tuple(to_surface_coordinates(Vector2())), self.props.outer_radius, 4)
     for bubble in self.bubbles:
       bubble.draw(surface)
