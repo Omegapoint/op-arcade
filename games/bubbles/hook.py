@@ -14,7 +14,7 @@ import pygame
 
 class Hook:
 
-  _SPEED = 150
+  _SPEED = 175
 
   def __init__(self, angle : float, start_radius : float, player : Player):
     self.angle = angle

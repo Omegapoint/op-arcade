@@ -11,8 +11,14 @@ from arcade_lib.arcade_inputs import ArcadeInput
 
 pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 20)
+bigger_font = pygame.font.Font('freesansbold.ttf', 30)
+biggest_font = pygame.font.Font('freesansbold.ttf', 40)
 
 class StatsOverlay:
+
+  _WARN_FROM_TIME = 20
+  _ALARM_FROM_TIME = 10
+
   def __init__(self, game : Game):
     self.game : Game = game # Tight coupling buy eh whatever
 
@@ -47,7 +53,12 @@ class StatsOverlay:
     surface.blit(level_text_render, level_text_rect)
 
   def __draw_timer(self, surface : pygame.Surface) -> None:
-    text_render = font.render(f'{self.game.players.time_left:.2f}', False, [0, 0, 0])
+    if self.game.players.time_left > StatsOverlay._WARN_FROM_TIME:
+      text_render = font.render(f'{self.game.players.time_left:.2f}', False, [0,0,0])
+    elif self.game.players.time_left > StatsOverlay._ALARM_FROM_TIME:
+      text_render = bigger_font.render(f'{self.game.players.time_left:.2f}', False, [225,150,0])
+    else:
+      text_render = biggest_font.render(f'{self.game.players.time_left:.2f}', False, [255,0,0])
     text_rect = text_render.get_rect()
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, 0)))
     surface.blit(text_render, text_rect)

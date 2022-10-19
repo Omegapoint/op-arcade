@@ -35,27 +35,36 @@ class Bubble:
     self.radius : float = start_radius
     self.radial_velocity : float = 0
     self.tangential_velocity : float = tangential_velocity
+    self.target_tangential_velocity = self.tangential_velocity
     self.size : float = type.value.size
     self.color : tuple[int, int, int] = type.value.color
     self.score = 5
     self.type = type
 
+  def set_target_tangential_velocity(self, target_tangential_velocity):
+    self.target_tangential_velocity = target_tangential_velocity
+
   def apply_gravity(self, delta_time: float):
     self.radial_velocity += Bubble.RADIAL_ACCELERATION * delta_time
     self.radius += self.radial_velocity * delta_time
-    self.angle += self.tangential_velocity * delta_time
 
-  def update(self, deltaTime: float, world : World):
-    self.apply_gravity(deltaTime)
+  def update(self, delta_time: float, world : World):
+    self.apply_gravity(delta_time)
+    if abs(self.tangential_velocity - self.target_tangential_velocity) > 0.001:
+      self.tangential_velocity += (self.target_tangential_velocity - self.tangential_velocity) * delta_time
+    self.angle += self.tangential_velocity * delta_time
     if self.radius + self.size >= world.props.outer_radius:
-      self.radius = world.props.outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly even though it is easy)
-      self.radial_velocity = - self.radial_velocity
+      self.bounce(world.props.outer_radius)
 
   def calc_pos(self) -> Vector2:
     return Vector2.from_radial(self.radius, self.angle)
 
   def draw(self, surface : pygame.Surface) -> None:
     pygame.draw.circle(surface, self.color, tuple(to_surface_coordinates(self.calc_pos())), self.size)
+
+  def bounce(self, outer_radius : float):
+    self.radius = outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly even though it is easy)
+    self.radial_velocity = -self.radial_velocity
 
   def get_spawns(self):
     if self.type == BubbleType.BIG_NORMAL:
@@ -76,20 +85,26 @@ class Bubble:
     elif self.type == BubbleType.TINY_NORMAL:
       return []
     elif self.type == BubbleType.FOUR_TINIES:
-      return [
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL)
-      ]
+      b1 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity, type = BubbleType.TINY_NORMAL)
+      b2 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL)
+      b2.set_target_tangential_velocity(self.tangential_velocity)
+      b3 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity, type = BubbleType.TINY_NORMAL)
+      b4 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL)
+      b4.set_target_tangential_velocity(-self.tangential_velocity)
+      return [b1, b2, b3, b4]
     elif self.type == BubbleType.EIGHT_TINIES:
-      return [
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 3, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 4, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 3, type = BubbleType.TINY_NORMAL),
-        Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 4, type = BubbleType.TINY_NORMAL)
-      ]
+      b1 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity, type = BubbleType.TINY_NORMAL)
+      b2 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL)
+      b2.set_target_tangential_velocity(self.tangential_velocity)
+      b3 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 3, type = BubbleType.TINY_NORMAL)
+      b3.set_target_tangential_velocity(self.tangential_velocity)
+      b4 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = self.tangential_velocity / 4, type = BubbleType.TINY_NORMAL)
+      b4.set_target_tangential_velocity(self.tangential_velocity)
+      b5 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity, type = BubbleType.TINY_NORMAL)
+      b6 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 2, type = BubbleType.TINY_NORMAL)
+      b6.set_target_tangential_velocity(-self.tangential_velocity)
+      b7 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 3, type = BubbleType.TINY_NORMAL)
+      b7.set_target_tangential_velocity(-self.tangential_velocity)
+      b8 = Bubble(start_angle=self.angle, start_radius=self.radius, tangential_velocity = -self.tangential_velocity / 4, type = BubbleType.TINY_NORMAL)
+      b8.set_target_tangential_velocity(-self.tangential_velocity)
+      return[b1, b2, b3, b4, b5, b6, b7, b8]
