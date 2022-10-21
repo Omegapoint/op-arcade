@@ -1,9 +1,11 @@
 from __future__ import annotations
-from enum import Enum
 from typing import TYPE_CHECKING
+
 if TYPE_CHECKING:
   from games.bubbles.world import World
 
+from enum import Enum
+from games.bubbles.wall import Wall
 from games.bubbles.util import to_surface_coordinates
 from arcade_lib.vector2 import Vector2
 import pygame
@@ -44,28 +46,38 @@ class Bubble:
   def set_target_tangential_velocity(self, target_tangential_velocity):
     self.target_tangential_velocity = target_tangential_velocity
 
-  def apply_gravity(self, delta_time: float):
+  def update_radial(self, delta_time: float, world_outer_bound : float):
     self.radial_velocity += Bubble.RADIAL_ACCELERATION * delta_time
-    self.radius += self.radial_velocity * delta_time
+    next_radial = self.radius + self.radial_velocity * delta_time
+    if next_radial + self.size > world_outer_bound:
+      # Bounce
+      self.radial_velocity = -self.radial_velocity
+      rdiff = next_radial - self.radius
+      next_radial = (2 * world_outer_bound) - rdiff - self.radius - (2 * self.size)
+    self.radius = next_radial
 
-  def update(self, delta_time: float, world : World):
-    self.apply_gravity(delta_time)
+  def update_angular(self, delta_time : float, walls : tuple[Wall]):
     if abs(self.tangential_velocity - self.target_tangential_velocity) > 0.001:
       self.tangential_velocity += (self.target_tangential_velocity - self.tangential_velocity) * delta_time
-    self.angle += self.tangential_velocity * delta_time
-    if self.radius + self.size >= world.props.outer_radius:
-      self.bounce(world.props.outer_radius)
+    next_angle = self.angle + self.tangential_velocity * delta_time
+    next_pos = Vector2.from_radial(self.radius, next_angle)
+    for wall in walls:
+      if wall.hit_with_circle(next_pos, self.size):
+        # Bounce
+        self.tangential_velocity *= -1
+        self.target_tangential_velocity *= -1
+    self.angle += self.tangential_velocity * delta_time # TODO: This is a bit wrong.
 
+  def update(self, delta_time: float, world : World):
+    self.update_radial(delta_time, world.props.outer_radius)
+    self.update_angular(delta_time, world.props.walls)
+    
   def calc_pos(self) -> Vector2:
     return Vector2.from_radial(self.radius, self.angle)
 
   def draw(self, surface : pygame.Surface) -> None:
     pygame.draw.circle(surface, self.color, tuple(to_surface_coordinates(self.calc_pos())), self.size)
-    pygame.draw.circle(surface, [0,0,0], tuple(to_surface_coordinates(self.calc_pos())), self.size, 1)
-
-  def bounce(self, outer_radius : float):
-    self.radius = outer_radius - self.size # TODO: might want to make this more exact (too tired to calculate this correctly even though it is easy)
-    self.radial_velocity = -self.radial_velocity
+    pygame.draw.circle(surface, [0,0,0], tuple(to_surface_coordinates(self.calc_pos())), self.size, 2)
 
   def get_spawns(self):
     if self.type == BubbleType.BIG_NORMAL:

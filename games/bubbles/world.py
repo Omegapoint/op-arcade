@@ -4,18 +4,25 @@ from arcade_lib.vector2 import Vector2
 import pygame
 import math
 
+from games.bubbles.wall import Wall
+
 pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 20)
 
 LEVEL_COLORS = ((200, 200, 200), (150, 200, 200), (200, 150, 200), (200, 200, 150), (150, 220, 150), (220, 150, 150))
 
 class WorldProps:
-  def __init__(self, outer_radius : int, inner_radius : int, color: tuple[int, int, int], seconds_until_game_over : float):
+  def __init__(self, 
+      outer_radius : int, 
+      inner_radius : int, 
+      color: tuple[int, int, int], 
+      seconds_until_game_over : float,
+      walls : tuple[Wall] = []):
     self.outer_radius : int = outer_radius
     self.inner_radius : int = inner_radius
     self.seconds_until_game_over : int = seconds_until_game_over
     self.color: tuple[int, int, int] = color
-
+    self.walls : tuple[Wall] = walls
 
 class World:
   def __init__(self, level : int):
@@ -23,7 +30,8 @@ class World:
     self.bubbles : list[Bubble] = self.__init_bubbles(level)
 
   def __init_props(self, level : int):
-    return WorldProps(500, 100, color = LEVEL_COLORS[(level - 1)%len(LEVEL_COLORS)], seconds_until_game_over = 60.0)
+    wall = Wall(angle = 90, start_radius = 100, end_radius = 500)
+    return WorldProps(outer_radius = 500, inner_radius = 100, color = LEVEL_COLORS[(level - 1)%len(LEVEL_COLORS)], seconds_until_game_over = 60.0, walls = [wall])
 
   def __init_bubbles(self, level : int):
     if level == 1:
@@ -79,8 +87,9 @@ class World:
 
   def draw(self, surface : pygame.Surface) -> None:
     surface.fill(self.props.color)
-    print(self.props.color)
     pygame.draw.circle(surface, [100, 255, 100], tuple(to_surface_coordinates(Vector2())), self.props.inner_radius, 4)
     pygame.draw.circle(surface, [255, 100, 255], tuple(to_surface_coordinates(Vector2())), self.props.outer_radius, 4)
+    for wall in self.props.walls:
+      wall.draw(surface)
     for bubble in self.bubbles:
       bubble.draw(surface)
