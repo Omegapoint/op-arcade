@@ -26,7 +26,7 @@ WORLD_SPECS = {
              color = (200, 200, 200), 
              seconds_until_game_over = 60.0, 
              bubbles = [
-              Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL)
+              Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.TINY_NORMAL)
              ],
              walls = []),
   2: 
