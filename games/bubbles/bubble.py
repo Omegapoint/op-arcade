@@ -10,18 +10,18 @@ from games.bubbles.util import to_surface_coordinates
 from arcade_lib.vector2 import Vector2
 import pygame
 
-class BubbleProps:
+class BubbleSpecs:
   def __init__(self, size : int, color : tuple[int, int, int]):
     self.size : int = size
     self.color : tuple[int, int, int] = color
 
 class BubbleType(Enum):
-  BIG_NORMAL = BubbleProps(100, [125,0,0])
-  MEDIUM_NORMAL = BubbleProps(50, [125,125,0])
-  SMALL_NORMAL = BubbleProps(25, [125,0,125])
-  TINY_NORMAL = BubbleProps(10, [255,0,0])
-  FOUR_TINIES = BubbleProps(40, [125,0,255])
-  EIGHT_TINIES = BubbleProps(80, [125,255,0])
+  BIG_NORMAL = BubbleSpecs(100, [125,0,0])
+  MEDIUM_NORMAL = BubbleSpecs(50, [125,125,0])
+  SMALL_NORMAL = BubbleSpecs(25, [125,0,125])
+  TINY_NORMAL = BubbleSpecs(10, [255,0,0])
+  FOUR_TINIES = BubbleSpecs(40, [125,0,255])
+  EIGHT_TINIES = BubbleSpecs(80, [125,255,0])
 
 class Bubble:
 
@@ -69,8 +69,8 @@ class Bubble:
     self.angle += self.tangential_velocity * delta_time # TODO: This is a bit wrong.
 
   def update(self, delta_time: float, world : World):
-    self.update_radial(delta_time, world.props.outer_radius)
-    self.update_angular(delta_time, world.props.walls)
+    self.update_radial(delta_time, world.outer_radius)
+    self.update_angular(delta_time, world.walls)
     
   def calc_pos(self) -> Vector2:
     return Vector2.from_radial(self.radius, self.angle)

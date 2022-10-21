@@ -35,7 +35,7 @@ class Hook:
         game.world.bubble_hit(bubble)
         game.players.score += bubble.score
         return UpdateResult.KILLME
-    if self.curr_radius <= game.world.props.inner_radius:
+    if self.curr_radius <= game.world.inner_radius:
       return UpdateResult.KILLME
     return UpdateResult.NONE 
 

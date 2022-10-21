@@ -4,7 +4,7 @@ if TYPE_CHECKING:
   from games.bubbles.game import Game
 
   
-from games.bubbles.world import WorldProps
+from games.bubbles.world import World
 from games.bubbles.player import Player
 from games.bubbles.update_results import UpdateResult
 import arcade_lib.arcade_inputs
@@ -21,11 +21,11 @@ class Players():
   def add_score(self, score : int):
     self.score += int(score)
 
-  def start_new_level(self, worldProps : WorldProps):
-    self.time_left : float = worldProps.seconds_until_game_over
+  def start_new_level(self, world : World):
+    self.time_left : float = world.seconds_until_game_over
     self.players = []
     for i in range(8):
-      self.players.append(Player((-i + 2) * (math.pi/4), [255, 255, 255], self.inputs.player_inputs[i], worldProps))
+      self.players.append(Player((-i + 2) * (math.pi/4), [255, 255, 255], self.inputs.player_inputs[i], world))
     
   def update(self, delta_time : float, game : Game):
     self.time_left -= delta_time

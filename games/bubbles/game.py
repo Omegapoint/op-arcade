@@ -38,7 +38,7 @@ class Game:
   def start_level(self, level: int) -> None:
     self.current_level = level
     self.world = World(level)
-    self.players.start_new_level(self.world.props)
+    self.players.start_new_level(self.world)
     self.game_objects = []
     self.hooks = []
     self.ready_countdown = ReadyCountdown()

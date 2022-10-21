@@ -12,7 +12,7 @@ from games.bubbles.hook import Hook
 from games.bubbles.blood_splatter import BloodSplatter
 from arcade_lib.vector2 import Vector2
 from games.bubbles.util import to_surface_coordinates, get_centered_sprite_pos
-from games.bubbles.world import WorldProps
+from games.bubbles.world import World
 import math
 import arcade_lib.arcade_inputs
 import pygame
@@ -35,11 +35,11 @@ class Player():
   _BLOOD_SPLATTER_OFFSET = 50
   _ANGULAR_SPEED = (math.pi * 2) / 16
 
-  def __init__(self, start_angle : float, color, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, world_props : WorldProps):
+  def __init__(self, start_angle : float, color, inputs : arcade_lib.arcade_inputs.ArcadePlayerInput, world : World):
     self.inputs : arcade_lib.arcade_inputs.ArcadePlayerInput = inputs
     self.color = color
     self.angle : float = start_angle
-    self.world_props : WorldProps = world_props
+    self.world : World = world
     self.hook : Hook = None
     self.animator : Animator = self.create_animator()
     
@@ -54,13 +54,13 @@ class Player():
       initial_state=PlayerAnimationState.IDLE)
 
   def calc_hitbox_center_pos(self) -> Vector2:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world.outer_radius - Player._HITBOX_CENTER_HEIGHT) 
 
   def calc_character_center(self) -> tuple[Vector2, Vector2]:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._SPRITE_OFFSET) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world.outer_radius - Player._SPRITE_OFFSET) 
 
   def calc_splatter_center(self) -> tuple[Vector2, Vector2]:
-    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world_props.outer_radius - Player._BLOOD_SPLATTER_OFFSET) 
+    return Vector2(math.cos(self.angle), math.sin(self.angle)) * (self.world.outer_radius - Player._BLOOD_SPLATTER_OFFSET) 
 
 
   def update(self, delta_time : float, game : Game) -> UpdateResult:
@@ -94,7 +94,7 @@ class Player():
     surface.blit(current_animation_image, tuple(sprite_pos))
 
   def shoot(self, game : Game) -> None:
-    self.hook = Hook(self.angle, self.world_props.outer_radius, self)
+    self.hook = Hook(self.angle, self.world.outer_radius, self)
     game.register_hook(self.hook)
 
   def unregister_hook(self):
