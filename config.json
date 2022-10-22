@@ -11,6 +11,10 @@
     {
       "title": "Pong 8",
       "command": "/usr/bin/python3.9 /home/pi/op-arcade/pong8.py"
+    },
+    {
+      "title": "Bubbelt Trubbel",
+      "command": "/usr/bin/python3.9 /home/pi/op-arcade/bubbles.py"
     }
   ]
 
