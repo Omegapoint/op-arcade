@@ -5,7 +5,7 @@ if TYPE_CHECKING:
   from games.bubbles.world import World
 
 from enum import Enum
-from games.bubbles.wall import Wall
+from games.bubbles.game_objects.wall import Wall
 from games.bubbles.util import to_surface_coordinates
 from arcade_lib.vector2 import Vector2
 import pygame

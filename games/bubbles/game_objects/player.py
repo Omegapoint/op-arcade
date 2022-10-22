@@ -8,8 +8,8 @@ if TYPE_CHECKING:
 from enum import Enum
 from arcade_lib.spritesheet import Animator, Spritesheet, SpritesheetAnimation
 from games.bubbles.update_results import UpdateResult
-from games.bubbles.hook import Hook
-from games.bubbles.blood_splatter import BloodSplatter
+from games.bubbles.game_objects.hook import Hook
+from games.bubbles.game_objects.blood_splatter import BloodSplatter
 from arcade_lib.vector2 import Vector2
 from games.bubbles.util import to_surface_coordinates, get_centered_sprite_pos
 from games.bubbles.world import World
@@ -18,7 +18,7 @@ import arcade_lib.arcade_inputs
 import pygame
 import os
 
-sheet_path = os.path.join(os.path.dirname(__file__), "assets", "daxbotsheet.png")
+sheet_path = os.path.join(os.path.dirname(__file__), "..", "assets", "daxbotsheet.png")
 player_spritesheet = Spritesheet(sheet_path, 64, 68)
 
 class PlayerAnimationState(Enum):

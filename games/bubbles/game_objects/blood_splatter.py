@@ -8,15 +8,15 @@ if TYPE_CHECKING:
 import pygame
 import os
 import math
-from games.bubbles.game_object import GameObject
+from games.bubbles.game_objects.game_object import GameObject
 from arcade_lib.spritesheet import AnimationState, Spritesheet, SpritesheetAnimation
 from arcade_lib.vector2 import Vector2
 from games.bubbles.util import get_centered_sprite_pos, to_surface_coordinates
 
 
-splash_sheet_path = os.path.join(os.path.dirname(__file__), "assets", "bloodsplatter.png")
+splash_sheet_path = os.path.join(os.path.dirname(__file__), "..", "assets", "bloodsplatter.png")
 splash_spritesheet = Spritesheet(splash_sheet_path, 200, 200)
-splatter_sheet_path = os.path.join(os.path.dirname(__file__), "assets", "dropsplash.png")
+splatter_sheet_path = os.path.join(os.path.dirname(__file__), "..", "assets", "dropsplash.png")
 splatter_spritesheet = Spritesheet(splatter_sheet_path,  118, 148)
 
 class BloodSplatter(GameObject):

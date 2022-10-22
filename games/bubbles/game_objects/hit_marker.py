@@ -8,13 +8,13 @@ import random
 import pygame
 import os
 import math
-from games.bubbles.game_object import GameObject
+from games.bubbles.game_objects.game_object import GameObject
 from arcade_lib.spritesheet import AnimationState, Spritesheet, SpritesheetAnimation
 from arcade_lib.vector2 import Vector2
 from games.bubbles.util import get_centered_sprite_pos, to_surface_coordinates
 
 
-hit_sheet_path = os.path.join(os.path.dirname(__file__), "assets", "hit_with_ring_yellow.png")
+hit_sheet_path = os.path.join(os.path.dirname(__file__), "..", "assets", "hit_with_ring_yellow.png")
 hit_spritesheet = Spritesheet(hit_sheet_path, 150, 150)
 
 class HitMarker(GameObject):

@@ -1,8 +1,8 @@
 
   
 from enum import Enum
-from games.bubbles.bubble import Bubble, BubbleType
-from games.bubbles.wall import Wall
+from games.bubbles.game_objects.bubble import Bubble, BubbleType
+from games.bubbles.game_objects.wall import Wall
 import math
 
 

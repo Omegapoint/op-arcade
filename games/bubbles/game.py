@@ -1,14 +1,14 @@
 from enum import Enum
-from games.bubbles.after_game_screen import AfterGameScreen
-from games.bubbles.end_screen import EndScreen
-from games.bubbles.game_object import GameObject
-from games.bubbles.hook import Hook
+from games.bubbles.screens.after_game_screen import AfterGameScreen
+from games.bubbles.screens.end_screen import EndScreen
+from games.bubbles.screens.start_screen import StartScreen
+from games.bubbles.game_objects.game_object import GameObject
+from games.bubbles.game_objects.hook import Hook
 from arcade_lib.arcade_inputs import ArcadeInput
 import pygame
 from games.bubbles.players import Players
-from games.bubbles.ready_countdown import ReadyCountdown
-from games.bubbles.start_screen import StartScreen
-from games.bubbles.stats_overlay import StatsOverlay
+from games.bubbles.views.ready_countdown import ReadyCountdown
+from games.bubbles.views.stats_overlay import StatsOverlay
 
 from games.bubbles.world_specs import WORLD_SPECS
 from games.bubbles.world import World, create_world_from_level

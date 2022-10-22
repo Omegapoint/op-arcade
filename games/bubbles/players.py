@@ -5,7 +5,7 @@ if TYPE_CHECKING:
 
   
 from games.bubbles.world import World
-from games.bubbles.player import Player
+from games.bubbles.game_objects.player import Player
 from games.bubbles.update_results import UpdateResult
 import arcade_lib.arcade_inputs
 import pygame

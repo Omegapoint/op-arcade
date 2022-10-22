@@ -2,9 +2,9 @@ from __future__ import annotations
 from typing import TYPE_CHECKING
 if TYPE_CHECKING:
   from games.bubbles.game import Game
-  from games.bubbles.player import Player
+  from games.bubbles.game_objects.player import Player
   
-from games.bubbles.hit_marker import HitMarker
+from games.bubbles.game_objects.hit_marker import HitMarker
 from games.bubbles.update_results import UpdateResult
 from arcade_lib.vector2 import Vector2
 from games.bubbles.util import to_surface_coordinates, circle_line_segment_intersection
