@@ -37,12 +37,12 @@ class AfterGameScreen:
 
     text_render = font.render("Bonus (level x tid):", False, [0, 0, 0])
     text_rect = text_render.get_rect()
-    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 20)))
+    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 40)))
     surface.blit(text_render, text_rect)
 
     text_render = font.render(f"{self.game.current_level} x {self.game.players.time_left:.2f} = {int(self.game.current_level*self.game.players.time_left)}", False, [0, 0, 0])
     text_rect = text_render.get_rect()
-    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 40)))
+    text_rect.center = tuple(to_surface_coordinates(Vector2(0, 60)))
     surface.blit(text_render, text_rect)
     
     text_render = font.render(f"Tryck stora knappen för att fortsätta.", False, [0, 0, 0])

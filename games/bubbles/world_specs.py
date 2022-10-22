@@ -48,7 +48,7 @@ WORLD_SPECS = {
   1:
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 220, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = 0, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.TINY_NORMAL)
@@ -57,7 +57,7 @@ WORLD_SPECS = {
   2: 
   WorldSpec(outer_radius = 300, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 180, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 0 / 4, radial_pos = 200, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.SMALL_NORMAL),
@@ -69,7 +69,7 @@ WORLD_SPECS = {
   3:
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 200, 180), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = 0, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
@@ -82,7 +82,7 @@ WORLD_SPECS = {
   4:
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (180, 200, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2 * 5 / 8, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
@@ -96,7 +96,7 @@ WORLD_SPECS = {
   5:
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 200, 150), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos =math.pi * 2 * 0 / 8, radial_pos = 220, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.FOUR_TINIES),
@@ -114,7 +114,7 @@ WORLD_SPECS = {
   6: 
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (180, 200, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 0 / 6, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
@@ -125,7 +125,7 @@ WORLD_SPECS = {
   7: 
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 180, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = 0, radial_pos = 150, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.SMALL_NORMAL),
@@ -139,7 +139,7 @@ WORLD_SPECS = {
   8: 
   WorldSpec(outer_radius = 400, 
              inner_radius = 250, 
-             color = (200, 200, 200), 
+             color = (200, 200, 180), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2 * 2 / 32, radial_pos = 300, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.SMALL_NORMAL),
@@ -161,7 +161,7 @@ WORLD_SPECS = {
   9: 
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (180, 180, 200), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2 * 1 / 8, radial_pos = 300, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
@@ -173,7 +173,7 @@ WORLD_SPECS = {
   10: 
   WorldSpec(outer_radius = 500, 
              inner_radius = 100, 
-             color = (200, 200, 200), 
+             color = (200, 180, 180), 
              seconds_until_game_over = 60.0, 
              bubble_specs = [
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 0 / 6, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
