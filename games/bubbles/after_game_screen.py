@@ -45,7 +45,7 @@ class AfterGameScreen:
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, 60)))
     surface.blit(text_render, text_rect)
     
-    text_render = font.render(f"Tryck stora knappen för att fortsätta.", False, [0, 0, 0])
+    text_render = font.render(f"Tryck på stora knappen för att fortsätta.", False, [0, 0, 0])
     text_rect = text_render.get_rect()
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, 150)))
     surface.blit(text_render, text_rect)

@@ -45,7 +45,7 @@ class StartScreen:
     trubbel_text_rect.center = tuple(to_surface_coordinates(Vector2(0, 100)))
     surface.blit(trubbel_text_render, trubbel_text_rect)
 
-    trubbel_text_render = font.render("Tryck start för att starta!", False, [0, 0, 0])
+    trubbel_text_render = font.render("Tryck på stora knappen för att starta!", False, [0, 0, 0])
     trubbel_text_rect = trubbel_text_render.get_rect()
     trubbel_text_rect.center = tuple(to_surface_coordinates(Vector2(0, 200)))
     surface.blit(trubbel_text_render, trubbel_text_rect)

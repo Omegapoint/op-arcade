@@ -24,7 +24,7 @@ class Players():
   def start_new_level(self, world : World):
     self.time_left : float = world.seconds_until_game_over
     self.players = []
-    for i in range(8):
+    for i in [0,2,4,6]:
       self.players.append(Player((-i + 2) * (math.pi/4), [255, 255, 255], self.inputs.player_inputs[i], world))
     
   def update(self, delta_time : float, game : Game):

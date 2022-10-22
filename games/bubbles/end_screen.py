@@ -30,17 +30,17 @@ class EndScreen:
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, -60)))
     surface.blit(text_render, text_rect)
 
-    text_render = font.render("Så här gick det", False, [0, 0, 0])
+    text_render = font.render(f"Ni kom till bana {self.game.current_level}", False, [0, 0, 0])
     text_rect = text_render.get_rect()
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, -20)))
     surface.blit(text_render, text_rect)
 
-    text_render = font.render(f"Ni kom till bana {self.game.current_level}", False, [0, 0, 0])
+    text_render = font.render(f"och fick {self.game.players.score} poäng!", False, [0, 0, 0])
     text_rect = text_render.get_rect()
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, 20)))
     surface.blit(text_render, text_rect)
 
-    text_render = font.render(f"och fick {self.game.players.score} poäng!", False, [0, 0, 0])
+    text_render = font.render("Tryck på stora knappen för att fortsätta.", False, [0, 0, 0])
     text_rect = text_render.get_rect()
     text_rect.center = tuple(to_surface_coordinates(Vector2(0, 60)))
     surface.blit(text_render, text_rect)

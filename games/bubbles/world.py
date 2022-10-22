@@ -44,6 +44,7 @@ class World:
     for bubble in self.bubbles:
       bubble.draw(surface)
 
+
 def create_world_from_level(level : int) -> World:
   spec = WORLD_SPECS[level]
   return World(

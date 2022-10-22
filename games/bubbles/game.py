@@ -10,6 +10,7 @@ from games.bubbles.ready_countdown import ReadyCountdown
 from games.bubbles.start_screen import StartScreen
 from games.bubbles.stats_overlay import StatsOverlay
 
+from games.bubbles.world_specs import WORLD_SPECS
 from games.bubbles.world import World, create_world_from_level
 from games.bubbles.update_results import UpdateResult
 
@@ -57,6 +58,10 @@ class Game:
   def unregister_hook(self, hook: Hook):
     self.hooks.remove(hook)
 
+  def is_on_last_level(self):
+    if not (self.current_level + 1) in WORLD_SPECS:
+      return True
+
   def update(self, delta_time : float):
     self.inputs.update()
     if self.state == GameState.START_SCREEN:
@@ -82,9 +87,13 @@ class Game:
         self.state = GameState.GAME_OVER_SCREEN
     elif self.state == GameState.AFTER_GAME_SCREEN:
       if self.after_game_screen.update(delta_time) == UpdateResult.DONE:
-        self.start_level(self.current_level + 1)
+        if self.is_on_last_level():
+          self.state = GameState.GAME_OVER_SCREEN
+        else:
+          self.start_level(self.current_level + 1)
     elif self.state == GameState.GAME_OVER_SCREEN:
       if self.end_screen.update(delta_time) == UpdateResult.DONE:
+        self.current_level = 1
         self.state = GameState.START_SCREEN
 
 
