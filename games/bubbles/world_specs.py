@@ -180,10 +180,13 @@ WORLD_SPECS = {
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 2 / 6, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 4 / 6, radial_pos = 200, tangential_velocity = SPEED_NORMAL, bubble_type = BubbleType.BIG_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 1 / 6, radial_pos = 300, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
+              BubbleSpawnSpec(angular_pos = math.pi * 2  * 1 / 6, radial_pos = 250, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 1 / 6, radial_pos = 200, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 3 / 6, radial_pos = 300, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
+              BubbleSpawnSpec(angular_pos = math.pi * 2  * 3 / 6, radial_pos = 250, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 3 / 6, radial_pos = 200, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 5 / 6, radial_pos = 300, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
+              BubbleSpawnSpec(angular_pos = math.pi * 2  * 5 / 6, radial_pos = 250, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
               BubbleSpawnSpec(angular_pos = math.pi * 2  * 5 / 6, radial_pos = 200, tangential_velocity = SPEED_FAST, bubble_type = BubbleType.TINY_NORMAL),
              ],
              walls = [])
