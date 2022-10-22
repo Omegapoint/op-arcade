@@ -10,60 +10,21 @@ pygame.font.init()
 font = pygame.font.Font('freesansbold.ttf', 20)
 
 
-class World:
-  def __init__(self, level : int):
-    specs = WORLD_SPECS[level]
-    self.outer_radius = specs.outer_radius
-    self.inner_radius = specs.inner_radius
-    self.seconds_until_game_over = specs.seconds_until_game_over
-    self.color = specs.color
-    self.bubbles = specs.bubbles
-    self.walls = specs.walls
 
-  '''
-  def __init_bubbles(self, level : int):
-    if level == 1:
-      return [Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL)]
-    if level == 2:
-      return [
-        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 12, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = math.pi, start_radius = 200, tangential_velocity = math.pi * 2 / 12, type = BubbleType.MEDIUM_NORMAL),
-      ]
-    if level == 3:
-      return [
-        Bubble(start_angle = math.pi * 2 * 1 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
-        Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
-      ]
-    if level == 4:
-      return [
-        Bubble(start_angle = math.pi * 2 * 0 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
-        Bubble(start_angle = math.pi * 2 * 1 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
-        Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
-      ]
-    if level == 5:
-      return [
-        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = 0, start_radius = 150, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = math.pi * 2 / 3, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = math.pi * 2  / 3, start_radius = 150, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = math.pi * 2 * 2 / 3, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-        Bubble(start_angle = math.pi * 2 * 2 / 3, start_radius = 150, tangential_velocity = math.pi * 2 / 16, type = BubbleType.MEDIUM_NORMAL),
-      ]
-    if level == 6:
-      return [
-        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
-        Bubble(start_angle = math.pi * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
-        Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.BIG_NORMAL),
-        Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.FOUR_TINIES),
-      ]
-    if level == 7:
-      return [
-        Bubble(start_angle = 0, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
-        Bubble(start_angle = math.pi * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
-        Bubble(start_angle = math.pi * 2 * 2 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
-        Bubble(start_angle = math.pi * 2 * 3 / 4, start_radius = 200, tangential_velocity = math.pi * 2 / 16, type = BubbleType.EIGHT_TINIES),
-      ]
-  '''
+class World:
+  def __init__(self, 
+               outer_radius : float, 
+               inner_radius : float, 
+               seconds_until_game_over : float, 
+               color : tuple[int, int, int], 
+               bubbles : list[Bubble],
+               walls : tuple[Wall]):
+    self.outer_radius : float= outer_radius
+    self.inner_radius : float= inner_radius
+    self.seconds_until_game_over : float = seconds_until_game_over
+    self.color : tuple[int, int, int] = color
+    self.bubbles : list[Bubble] = bubbles
+    self.walls : tuple[Wall] = walls
 
   def update(self, delta_time : float):
     for bubble in self.bubbles:
@@ -82,3 +43,14 @@ class World:
       wall.draw(surface)
     for bubble in self.bubbles:
       bubble.draw(surface)
+
+def create_world_from_level(level : int) -> World:
+  spec = WORLD_SPECS[level]
+  return World(
+    inner_radius=spec.inner_radius,
+    outer_radius=spec.outer_radius,
+    seconds_until_game_over=spec.seconds_until_game_over,
+    color=spec.color,
+    bubbles=[bs.to_bubble() for bs in spec.bubble_specs],
+    walls=spec.walls
+  )

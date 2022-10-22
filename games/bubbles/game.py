@@ -4,15 +4,13 @@ from games.bubbles.end_screen import EndScreen
 from games.bubbles.game_object import GameObject
 from games.bubbles.hook import Hook
 from arcade_lib.arcade_inputs import ArcadeInput
-import os
-import math
 import pygame
 from games.bubbles.players import Players
 from games.bubbles.ready_countdown import ReadyCountdown
 from games.bubbles.start_screen import StartScreen
 from games.bubbles.stats_overlay import StatsOverlay
 
-from games.bubbles.world import World
+from games.bubbles.world import World, create_world_from_level
 from games.bubbles.update_results import UpdateResult
 
 class GameState(Enum):
@@ -40,7 +38,7 @@ class Game:
 
   def start_level(self, level: int) -> None:
     self.current_level = level
-    self.world = World(level)
+    self.world = create_world_from_level(level)
     self.players.start_new_level(self.world)
     self.game_objects = []
     self.hooks = []

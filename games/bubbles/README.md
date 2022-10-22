@@ -5,10 +5,10 @@ Most positions are in radial coordinate system using radians.
 Euclidean coordinates used for drawing and circle-circle and circle-line_segment collission detection.
 
 ## TODO
+- Fix bug with world specs being objects
 - more bubbles
   - different bounce rules
   - with hard shell that takes x hits before cracking
-- combo: if you reach the roof, destroys the bubbles (too overpowered?)
 - high-score table
 - more visual effects
   - blood stains on bubble
