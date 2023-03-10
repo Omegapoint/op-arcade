@@ -88,6 +88,7 @@ class ArcadeInput:
     self.__last_frame_start_button : bool = False
     self.__start_button_down : bool = False
     if self.mode == "OP_ARCADE":
+      pygame.joystick.init()
       joystick0 = pygame.joystick.Joystick(0)
       joystick1 = pygame.joystick.Joystick(1)
       joystick2 = pygame.joystick.Joystick(2)

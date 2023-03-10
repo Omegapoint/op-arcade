@@ -11,6 +11,12 @@ Make sure you use full paths in config.json both for the executable file and any
 The manager uses subprocess.Popen(). Read more:
 https://docs.python.org/3/library/subprocess.html#subprocess.Popen
 
+## Run in dev mode or in arcade mode
+If you set the environment variable
+`OP_ARCADE=Y`
+Then the game manager switches to "arcade mode" expecting input from joysticks as set up on the arcade table. The manager will also read which games to load from the `config.json` file.
+If you do not set this variable, the game manager expects input from your keyboard and reads  `config_dev.json` instead.
+
 ## STRETCH GOALS
 - Sanity check config.json file
 - GPIO inputs
